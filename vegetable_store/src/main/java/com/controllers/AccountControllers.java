@@ -67,6 +67,8 @@ public class AccountControllers extends HttpServlet {
             request.getRequestDispatcher("/signup.jsp").forward(request, response);
         } else if (path.endsWith("account/login")) {
             request.getRequestDispatcher("/signin.jsp").forward(request, response);
+        } else if (path.endsWith("/account/sign-up/staff")) {
+            request.getRequestDispatcher("/signup_1.jsp").forward(request, response);
         }
         if (path.endsWith("/account/logout")) {
             HttpSession session = request.getSession();

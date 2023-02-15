@@ -102,7 +102,7 @@
                                 if (request.getParameter("fail").equals("1")) {
                             %>
                             <div class="alert alert-danger alert-dismissible fade show">
-                                <strong>Danger!</strong> Account or password is not exits.
+                                <strong>Danger!</strong> Account or password is wrong.
                             </div>
                             <%
                             } else if (request.getParameter("fail").equals("2")) {
@@ -112,7 +112,6 @@
                             </div>
                             <%
                                     }
-
                                 }
                             %>
                             <p class="error" id="txtError"></p> 

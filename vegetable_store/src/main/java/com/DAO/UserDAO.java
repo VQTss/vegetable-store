@@ -44,7 +44,7 @@ public class UserDAO {
         }
         return user;
     }
-    
+
     public User getUserByEmail(String email) {
         User user = null;
 
@@ -63,10 +63,9 @@ public class UserDAO {
         }
         return user;
     }
-    
-    
-    public int InsertUserInfor(User user){
-        int count  = 0;
+
+    public int InsertUserInfor(User user) {
+        int count = 0;
         String query = "INSERT INTO user (user_id,fullname,email,phone,address) "
                 + "VALUES (?,?,?,?,?)";
         try {
@@ -76,7 +75,36 @@ public class UserDAO {
             pst.setString(3, user.getEmail());
             pst.setString(4, user.getPhone());
             pst.setString(5, user.getAddress());
-            count =  pst.executeUpdate();
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    public ResultSet getAllCustomer() {
+        ResultSet rs = null;
+        String query = "SELECT * FROM `user` "
+                + "LEFT OUTER JOIN account "
+                + "ON account.email = user.email "
+                + "WHERE account.role_id = 'customer'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            rs = pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    
+    public int deleteUserByID(String user_id){
+        int count = 0;
+        String query = "DELETE FROM user WHERE user_id=?";
+        PreparedStatement pst;
+        try {
+            pst = conn.prepareStatement(query);
+            pst.setString(1, user_id);
+            count = pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

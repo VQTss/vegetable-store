@@ -107,7 +107,7 @@
                              <p class="error" id="txtError"></p> 
                             <form action="AccountController" method="post"  onsubmit = "return checkAllData()">
                                 <div class="form-floating mb-3">
-                                    <input type="hidden" name="id" class="form-control" id="floatingText" disabled value="<%= id_customer%>"">
+                                    <input type="hidden" name="id" class="form-control" id="floatingText" readonly value="<%= id_customer%>"">
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="floatingText">Full name</label>
@@ -130,7 +130,7 @@
                                     <input type="text" name="address" class="form-control" id="floatingAddress" >
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="hidden" name="role_id" class="form-control" id="floatingInput" disabled value="customer" >
+                                    <input type="hidden" name="role_id" class="form-control" id="floatingInput" readonly value="customer" >
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                 </div>

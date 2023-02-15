@@ -6,4 +6,5 @@ com\models\User.class
 com\DAO\UserDAO.class
 com\models\Account.class
 com\connections\DBConnections.class
+com\controllers\AdminController.class
 com\models\GenerateID.class

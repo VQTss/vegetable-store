@@ -18,14 +18,14 @@ import java.util.logging.Logger;
  * @author thaiq
  */
 public class AccountDAO {
+
     private Connection conn;
 
     public AccountDAO() {
         conn = DBConnections.getConnection();
     }
-    
-    
-    public boolean checkAccountExits(String email){
+
+    public boolean checkAccountExits(String email) {
         try {
             String query = "SELECT * FROM `account` WHERE email = ?";
             PreparedStatement pst = conn.prepareCall(query);
@@ -38,11 +38,11 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
-        
+
     }
-    
-     public Account checkExitsAccount(String email){
-         Account  acc =  null;
+
+    public Account checkExitsAccount(String email) {
+        Account acc = null;
         try {
             String query = "SELECT * FROM `account` WHERE email = ?";
             PreparedStatement pst = conn.prepareCall(query);
@@ -54,11 +54,11 @@ public class AccountDAO {
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return acc ;
-        
+        return acc;
+
     }
-    
-       public int InsertAccount(Account acc) {
+
+    public int InsertAccount(Account acc) {
         int count = 0;
         try {
             String query = "INSERT INTO account (email,password,role_id)"
@@ -73,4 +73,38 @@ public class AccountDAO {
         }
         return count;
     }
+
+    public int CountCustomer() {
+        int count = 0;
+        String query = "SELECT * FROM account";
+        PreparedStatement pst;
+        try {
+            pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                if (rs.getString("role_id").equals("customer")) {
+                    count++;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return count;
+    }
+
+    public int deleteAccountByEmail(String email) {
+        int count = 0;
+        String query = "DELETE FROM account WHERE email=?";
+        PreparedStatement pst;
+        try {
+            pst = conn.prepareStatement(query);
+            pst.setString(1, email);
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
 }
