@@ -47,13 +47,9 @@
                     <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-paperclip me-2"></i>Reports</a>
                     <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-shopping-cart me-2"></i>Store Mng</a>
+                            class="fas fa-shopping-cart me-2"></i>Manage Order</a>
                     <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-gift me-2"></i>Products</a>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-comment-dots me-2"></i>Chat</a>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-map-marker-alt me-2"></i>Outlet</a>
                     <a href="/account/logout" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                             class="fas fa-power-off me-2"></i>Logout</a>
                 </div>
@@ -99,7 +95,7 @@
                             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                                 <div>
                                     <h3 class="fs-2"><%= countUser%></h3>
-                                    <p class="fs-5">User Active</p>
+                                    <p class="fs-5">User</p>
                                 </div>
                                 <i class="fas fa-user me-2 fs-1 primary-text border rounded-full secondary-bg p-3"></i>
 
@@ -117,13 +113,49 @@
 
                         <div class="col-md-4">
                             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                                <div>
-                                    <a href="<%= request.getContextPath()%>/admin/manage/staff/add"><button type="button" class="btn btn-primary btn-lg">Add</button></a>
-                                    <p class="fs-5">New staff</p>
+                                                                     
+                                
+                                <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                                    <p class="fs-6">Top 5 customer payment</p>
+                                    <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                                        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                                        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                                    </div>
+
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <div class="text-center" style="padding: 10px;"><p>text 1</p></div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="text-center"  style="padding: 10px;"><p >text 2</p></div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="text-center"  style="padding: 10px;"><p>text 3</p></div>
+                                        </div>
+                                    </div>
+
+
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon"></span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon"></span>
+                                    </button>
                                 </div>
-                                <i class="fas fa-address-book fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+
                             </div>
+                           
                         </div>
+                        <!--                        <div class="col-md-4">
+                                                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                                        <div>
+                                                            <a href="<%= request.getContextPath()%>/admin/manage/staff/add"><button type="button" class="btn btn-primary btn-lg">Add</button></a>
+                                                            <p class="fs-5">New staff</p>
+                                                        </div>
+                                                        <i class="fas fa-address-book fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                                                    </div>
+                                                </div>-->
 
                     </div>
 

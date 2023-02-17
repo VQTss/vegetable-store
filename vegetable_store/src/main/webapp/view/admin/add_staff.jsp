@@ -84,7 +84,6 @@
                 if (session.getAttribute("admin") == null) {
                     response.sendRedirect(request.getContextPath() + "/account/login");
                 }
-
             %>
 
             <!-- Sign Up Start -->
@@ -100,7 +99,7 @@
                             </div>
                             <%
                                 GenerateID generateID = new GenerateID();
-                                String id_customer = generateID.generate("customer");
+                                String id_customer = generateID.generate("staff");
                                 if (request.getParameter("error") != null) {
                             %>
                             <div class="alert alert-danger alert-dismissible fade show">
@@ -135,11 +134,11 @@
                                     <input type="text" name="address" class="form-control" id="floatingAddress" >
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="hidden" name="role_id" class="form-control" id="floatingInput" readonly value="customer" >
+                                    <input type="hidden" name="role_id" class="form-control" id="floatingInput" readonly value="staff" >
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                 </div>
-                                <button type="submit" name="btn_insert_customer" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
+                                <button type="submit" name="btn_insert_staff" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
                             </form>
                             <p class="text-center mb-0">Already have an Account? <a href="signin.jsp">Sign-In</a></p>
                             

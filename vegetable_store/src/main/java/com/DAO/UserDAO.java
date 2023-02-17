@@ -97,6 +97,21 @@ public class UserDAO {
         return rs;
     }
     
+        public ResultSet getAllStaff() {
+        ResultSet rs = null;
+        String query = "SELECT * FROM `user` "
+                + "LEFT OUTER JOIN account "
+                + "ON account.email = user.email "
+                + "WHERE account.role_id = 'staff'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            rs = pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    
     public int deleteUserByID(String user_id) {
         int count = 0;
         String query = "DELETE FROM user WHERE user_id=?";

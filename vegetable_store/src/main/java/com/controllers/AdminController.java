@@ -70,6 +70,12 @@ public class AdminController extends HttpServlet {
         } else if (path.endsWith("/manage/customer/add")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/add_customer.jsp");
             dispatcher.forward(request, response);
+        } else if (path.endsWith("/manage/staff")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/manage_staff.jsp");
+            dispatcher.forward(request, response);
+        }else if (path.endsWith("/manage/staff/add")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/add_staff.jsp");
+            dispatcher.forward(request, response);
         }
         else {
             if (path.startsWith("/admin/manage/customer/edit")) {
@@ -91,6 +97,25 @@ public class AdminController extends HttpServlet {
                 }
 
             }
+            if (path.startsWith("/admin/manage/staff/edit")) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/edit_staff.jsp");
+                dispatcher.forward(request, response);
+            } else if (path.startsWith("/admin/manage/staff/delete")) {
+                String user_id = request.getParameter("id");
+                User us = userDAO.getUserByID(user_id);
+                int check = userDAO.deleteUserByID(user_id);
+                if (check != 0) {
+                    check = accountDAO.deleteAccountByEmail(us.getEmail());
+                    if (check != 0) {
+                        response.sendRedirect(request.getContextPath() + "/admin/manage/staff?success=1");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/admin/manage/staff?fail=1");
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/manage/staff?fail=1");
+                }
+
+            }
         }
     }
 
@@ -106,7 +131,7 @@ public class AdminController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        
+
         if (request.getParameter("btn_update_customer") != null) {
             String id, full_name, email,
                     password, phone, address, role_id;
@@ -135,6 +160,7 @@ public class AdminController extends HttpServlet {
             }
 
         }
+        
         if (request.getParameter("btn_insert_customer") != null) {
             String id, full_name, email,
                     password, phone, address, role_id;
@@ -167,6 +193,72 @@ public class AdminController extends HttpServlet {
             }
         }
         
+        if (request.getParameter("btn_update_staff") != null) {
+            String id, full_name, email,
+                    password, phone, address, role_id;
+            id = request.getParameter("id");
+            full_name = request.getParameter("full_name");
+            email = request.getParameter("email");
+            address = request.getParameter("address");
+            password = request.getParameter("password");
+            phone = request.getParameter("phone");
+            role_id = request.getParameter("role_id");
+            Account acc = new Account(email, password, role_id);
+            User cus = new User(id, full_name, email, phone, address);
+            UserDAO cdao = new UserDAO();
+            AccountDAO accountDAO = new AccountDAO();
+
+            int check = accountDAO.updateAccount(acc);
+            if (check != 0) {
+                check = cdao.updateUser(cus);
+                if (check != 0) {
+                    response.sendRedirect(request.getContextPath() + "/admin/manage/staff?edit_staff=1");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/manage/staff?edit_staff_fail=1");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin/manage/staff?edit_staff_fail=1");
+            }
+
+        }
+        
+        
+        
+        
+        if (request.getParameter("btn_insert_staff") != null) {
+            String id, full_name, email,
+                    password, phone, address, role_id;
+            id = request.getParameter("id");
+            full_name = request.getParameter("full_name");
+            email = request.getParameter("email");
+            address = request.getParameter("address");
+            password = request.getParameter("password");
+            phone = request.getParameter("phone");
+            role_id = request.getParameter("role_id");
+            Account acc = new Account(email, password, role_id);
+            User cus = new User(id, full_name, email, phone, address);
+            UserDAO cdao = new UserDAO();
+            AccountDAO accountDAO = new AccountDAO();
+            out.print(email);
+            if (!accountDAO.checkAccountExits(email)) {
+                int check = accountDAO.InsertAccount(acc);
+                if (check != 0) {
+                    check = cdao.InsertUserInfor(cus);
+                    if (check != 0) {
+                        response.sendRedirect(request.getContextPath() + "/admin/manage/staff?add_staff=1");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/admin/manage/staff?add_staff_fail=1");
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/manage/staff?add_staff_fail=1");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin/manage/staff/add?error=1");
+            }
+        }
+        
+        
+
     }
 
     /**

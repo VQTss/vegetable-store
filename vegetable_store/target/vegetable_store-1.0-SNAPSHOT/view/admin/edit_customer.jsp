@@ -84,11 +84,10 @@
                 </div>
             </div>
             <!-- Spinner End -->
-             <%
+            <%
                 if (session.getAttribute("admin") == null) {
                     response.sendRedirect(request.getContextPath() + "/account/login");
-                }
-
+                } else {
             %>
 
             <!-- Sign Up Start -->
@@ -106,17 +105,17 @@
                                 String id = request.getParameter("id");
                                 UserDAO userDAO = new UserDAO();
                                 User user = userDAO.getUserByID(id);
-                                AccountDAO accountDAO = new  AccountDAO();
+                                AccountDAO accountDAO = new AccountDAO();
                                 Account acc = accountDAO.checkExitsAccount(user.getEmail());
                             %>
-                             <p class="error" id="txtError"></p> 
+                            <p class="error" id="txtError"></p> 
                             <form action="AdminController" method="post"  onsubmit = "return checkAllData()">
                                 <div class="form-floating mb-3">
-                                    <input type="hidden" name="id" class="form-control" id="floatingText" readonly  value="<%= id %>" ">
+                                    <input type="hidden" name="id" class="form-control" id="floatingText" readonly  value="<%= id%>" ">
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="floatingText">Full name</label>
-                                    <input type="text" name="full_name" class="form-control" id="floatingText" value="<%= user.getFull_name() %>"  placeholder="Thai" ">
+                                    <input type="text" name="full_name" class="form-control" id="floatingText" value="<%= user.getFull_name()%>"  placeholder="Thai" ">
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="floatingInput">Email address</label>
@@ -124,11 +123,11 @@
                                 </div>
                                 <div class="form-floating mb-4">
                                     <label for="floatingPassword">Password</label>
-                                    <input type="password" name="password" class="form-control" id="floatingPassword" value="<%= acc.getPassword() %>"  placeholder="Password">
+                                    <input type="password" name="password" class="form-control" id="floatingPassword" value="<%= acc.getPassword()%>"  placeholder="Password">
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="floatingInput">Phone</label>
-                                    <input type="text" name="phone" class="form-control" id="floatingPhone" value="<%= user.getPhone() %>" placeholder="0123456789">
+                                    <input type="text" name="phone" class="form-control" id="floatingPhone" value="<%= user.getPhone()%>" placeholder="0123456789">
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="floatingInput">Address</label>
@@ -142,9 +141,9 @@
                                 <button type="submit" name="btn_update_customer" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
                             </form>
                             <p class="text-center mb-0">Already have an Account? <a href="signin.jsp">Sign-In</a></p>
-                            
+
                         </div>
-                         
+
                     </div>
                 </div>
             </div>
@@ -164,6 +163,12 @@
 
         <!-- Template Javascript -->
         <!-- <script src="js/main.js"></script> -->
+        <%
+            }
+
+        %>
+
+
     </body>
 
 </html>

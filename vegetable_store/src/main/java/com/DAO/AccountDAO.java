@@ -74,6 +74,7 @@ public class AccountDAO {
         return count;
     }
 
+    
     public int CountCustomer() {
         int count = 0;
         String query = "SELECT * FROM account";
@@ -83,6 +84,25 @@ public class AccountDAO {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getString("role_id").equals("customer")) {
+                    count++;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return count;
+    }
+    
+       public int CountStaff() {
+        int count = 0;
+        String query = "SELECT * FROM account";
+        PreparedStatement pst;
+        try {
+            pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                if (rs.getString("role_id").equals("staff")) {
                     count++;
                 }
             }
