@@ -107,4 +107,22 @@ public class AccountDAO {
         return count;
     }
 
+    public int updateAccount(Account acc) {
+        int count = 0;
+
+        String query = "UPDATE account "
+                + "SET  password=?, role_id=?"
+                + "WHERE email = ?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, acc.getPassword());
+            pst.setString(2, acc.getRole_id());
+            pst.setString(3, acc.getEmail());
+            count  = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
 }

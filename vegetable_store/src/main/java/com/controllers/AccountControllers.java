@@ -105,6 +105,7 @@ public class AccountControllers extends HttpServlet {
             User cus = new User(id, full_name, email, phone, address);
             UserDAO cdao = new UserDAO();
             accountDAO = new AccountDAO();
+            out.print(email);
             if (!accountDAO.checkAccountExits(email)) {
                 int check = accountDAO.InsertAccount(acc);
                 if (check != 0) {
@@ -128,10 +129,11 @@ public class AccountControllers extends HttpServlet {
             email = request.getParameter("email");
             password = request.getParameter("password");
             accountDAO = new AccountDAO();
-            Account acc = accountDAO.checkExitsAccount(email);
-            if (acc == null) {
+            Account acc = accountDAO.checkExitsAccount(email); // check user name
+            if (acc == null) { // user name không ton tai
                 response.sendRedirect(request.getContextPath() + "/account/login?fail=1");
             } else {
+                
                 if (acc.getRole_id().equals("customer")) {
                     if (acc.getPassword().equals(password)) {
                         session.setAttribute("name", acc.getEmail());
@@ -148,7 +150,7 @@ public class AccountControllers extends HttpServlet {
                     }
                 } else if (acc.getRole_id().equals("staff")) {
                     if (acc.getPassword().equals(password)) {
-                        session.setAttribute("name", acc.getEmail());
+                        session.setAttribute("name_1", acc.getEmail());
                         response.sendRedirect(request.getContextPath() + "/login/staff");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/account/login?fail=1");

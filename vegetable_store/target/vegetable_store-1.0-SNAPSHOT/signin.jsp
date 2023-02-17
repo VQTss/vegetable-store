@@ -77,7 +77,12 @@
                 </div>
             </div>
             <!-- Spinner End -->
+            <%
+                if (session.getAttribute("admin") != null) {
+                    response.sendRedirect(request.getContextPath() + "/login/admin");
+                }
 
+            %>
 
             <!-- Sign In Start -->
             <div class="container-fluid">
@@ -90,8 +95,7 @@
                                 </a>
                                 <h3>Sign In</h3>
                             </div>
-                            <%
-                                if (request.getParameter("success") != null) {
+                            <%                                if (request.getParameter("success") != null) {
                             %>
                             <div class="alert alert-success alert-dismissible fade show">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>

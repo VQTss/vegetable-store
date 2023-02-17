@@ -31,6 +31,7 @@
             } else {
 
         %>
+
         <div class="d-flex" id="wrapper">
             <!--Sidebar--> 
             <div class="bg-white" id="sidebar-wrapper">
@@ -107,7 +108,7 @@
                         <div class="col-md-4">
                             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                                 <div>
-                                    <a href="<%= request.getContextPath()%>/account/sign-up"><button type="button" class="btn btn-primary btn-lg">Add</button></a>
+                                    <a href="<%= request.getContextPath()%>/admin/manage/customer/add"><button type="button" class="btn btn-primary btn-lg">Add</button></a>
                                     <p class="fs-5">New customer</p>
                                 </div>
                                 <i class="fas fa-address-book fs-1 primary-text border rounded-full secondary-bg p-3"></i>
@@ -117,7 +118,7 @@
                         <div class="col-md-4">
                             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                                 <div>
-                                    <a href="<%= request.getContextPath()%>/account/sign-up/staff"><button type="button" class="btn btn-primary btn-lg">Add</button></a>
+                                    <a href="<%= request.getContextPath()%>/admin/manage/staff/add"><button type="button" class="btn btn-primary btn-lg">Add</button></a>
                                     <p class="fs-5">New staff</p>
                                 </div>
                                 <i class="fas fa-address-book fs-1 primary-text border rounded-full secondary-bg p-3"></i>
@@ -132,7 +133,9 @@
                             if (request.getParameter("success") != null) {
                                 if (request.getParameter("success").equals("1")) {
                         %>
-                        <p class="fs-4 mb-3 text-danger" >Delete success</p>
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <strong>Success!</strong> Delete customer success.
+                        </div>
                         <%
                         } else if (request.getParameter("success").equals("2")) {
                         %>
@@ -140,19 +143,43 @@
                         <%
                                 }
                             }
-
                             if (request.getParameter("fail") != null) {
                                 if (request.getParameter("fail").equals("1")) {
                         %>
-                        <p class="fs-4 mb-3 text-danger">Delete fail</p>
-
+                        <div class="alert alert-danger">
+                            <strong>Danger!</strong> Delete fail
+                        </div>
                         <%
                         } else if (request.getParameter("fail").equals("2")) {
                         %>
 
-
                         <%
                                 }
+                            }
+
+                            if (request.getParameter("edit_customer") != null) {
+                        %>
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <strong>Success!</strong> Edited customer success.
+                        </div>
+                        <%
+                            } else {
+
+                            }
+
+                            if (request.getParameter("add_customer") != null) {
+                        %>
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <strong>Success!</strong> Added customer success.
+                        </div>
+                        <%
+                        } else if (request.getParameter("add_customer_fail") != null) {
+                        %>
+                        <div class="alert alert-danger">
+                            <strong>Danger!</strong> Add fail
+                        </div>
+
+                        <%
                             }
 
                         %>

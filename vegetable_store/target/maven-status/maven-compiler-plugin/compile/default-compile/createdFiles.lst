@@ -1,10 +1,10 @@
 com\controllers\AccountControllers.class
 com\DAO\AccountDAO.class
-com\controllers\login.class
 com\controllers\HomeController.class
 com\models\User.class
 com\DAO\UserDAO.class
 com\models\Account.class
 com\connections\DBConnections.class
+com\controllers\loginControllers.class
 com\controllers\AdminController.class
 com\models\GenerateID.class

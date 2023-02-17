@@ -10,7 +10,7 @@
     </servlet>
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>com.controllers.login</servlet-class>
+        <servlet-class>com.controllers.loginControllers</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminController</servlet-name>

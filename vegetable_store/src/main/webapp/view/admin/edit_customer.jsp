@@ -84,7 +84,12 @@
                 </div>
             </div>
             <!-- Spinner End -->
+             <%
+                if (session.getAttribute("admin") == null) {
+                    response.sendRedirect(request.getContextPath() + "/account/login");
+                }
 
+            %>
 
             <!-- Sign Up Start -->
             <div class="container-fluid">
@@ -105,7 +110,7 @@
                                 Account acc = accountDAO.checkExitsAccount(user.getEmail());
                             %>
                              <p class="error" id="txtError"></p> 
-                            <form action="AccountController" method="post"  onsubmit = "return checkAllData()">
+                            <form action="AdminController" method="post"  onsubmit = "return checkAllData()">
                                 <div class="form-floating mb-3">
                                     <input type="hidden" name="id" class="form-control" id="floatingText" readonly  value="<%= id %>" ">
                                 </div>
@@ -115,7 +120,7 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="floatingInput">Email address</label>
-                                    <input type="email" name="email" class="form-control" id="floatingInput" value="<%= user.getEmail()%>" placeholder="name@example.com">
+                                    <input type="email" name="email" class="form-control" id="floatingInput" readonly value="<%= user.getEmail()%>" placeholder="name@example.com">
                                 </div>
                                 <div class="form-floating mb-4">
                                     <label for="floatingPassword">Password</label>
@@ -134,7 +139,7 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                 </div>
-                                <button type="submit" name="btn_insert_customer" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
+                                <button type="submit" name="btn_update_customer" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
                             </form>
                             <p class="text-center mb-0">Already have an Account? <a href="signin.jsp">Sign-In</a></p>
                             

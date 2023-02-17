@@ -6,6 +6,7 @@ package com.controllers;
 
 import com.DAO.AccountDAO;
 import com.DAO.UserDAO;
+import com.models.Account;
 import com.models.User;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -66,7 +67,11 @@ public class AdminController extends HttpServlet {
         if (path.endsWith("/manage/customer")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/manage_customer.jsp");
             dispatcher.forward(request, response);
-        } else {
+        } else if (path.endsWith("/manage/customer/add")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/add_customer.jsp");
+            dispatcher.forward(request, response);
+        }
+        else {
             if (path.startsWith("/admin/manage/customer/edit")) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/edit_customer.jsp");
                 dispatcher.forward(request, response);
@@ -100,7 +105,68 @@ public class AdminController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        
+        if (request.getParameter("btn_update_customer") != null) {
+            String id, full_name, email,
+                    password, phone, address, role_id;
+            id = request.getParameter("id");
+            full_name = request.getParameter("full_name");
+            email = request.getParameter("email");
+            address = request.getParameter("address");
+            password = request.getParameter("password");
+            phone = request.getParameter("phone");
+            role_id = request.getParameter("role_id");
+            Account acc = new Account(email, password, role_id);
+            User cus = new User(id, full_name, email, phone, address);
+            UserDAO cdao = new UserDAO();
+            AccountDAO accountDAO = new AccountDAO();
+
+            int check = accountDAO.updateAccount(acc);
+            if (check != 0) {
+                check = cdao.updateUser(cus);
+                if (check != 0) {
+                    response.sendRedirect(request.getContextPath() + "/admin/manage/customer?edit_customer=1");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/manage/customer?edit_customer_fail=1");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin/manage/customer?edit_customer_fail=1");
+            }
+
+        }
+        if (request.getParameter("btn_insert_customer") != null) {
+            String id, full_name, email,
+                    password, phone, address, role_id;
+            id = request.getParameter("id");
+            full_name = request.getParameter("full_name");
+            email = request.getParameter("email");
+            address = request.getParameter("address");
+            password = request.getParameter("password");
+            phone = request.getParameter("phone");
+            role_id = request.getParameter("role_id");
+            Account acc = new Account(email, password, role_id);
+            User cus = new User(id, full_name, email, phone, address);
+            UserDAO cdao = new UserDAO();
+            AccountDAO accountDAO = new AccountDAO();
+            out.print(email);
+            if (!accountDAO.checkAccountExits(email)) {
+                int check = accountDAO.InsertAccount(acc);
+                if (check != 0) {
+                    check = cdao.InsertUserInfor(cus);
+                    if (check != 0) {
+                        response.sendRedirect(request.getContextPath() + "/admin/manage/customer?add_customer=1");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/admin/manage/customer?add_customer_fail=1");
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/manage/customer?add_customer_fail=1");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin/manage/customer/add?error=1");
+            }
+        }
+        
     }
 
     /**
