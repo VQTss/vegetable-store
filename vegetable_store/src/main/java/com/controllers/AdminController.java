@@ -64,20 +64,33 @@ public class AdminController extends HttpServlet {
         PrintWriter out = response.getWriter();
         UserDAO userDAO = new UserDAO();
         AccountDAO accountDAO = new AccountDAO();
+        // customer
         if (path.endsWith("/manage/customer")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/manage_customer.jsp");
             dispatcher.forward(request, response);
         } else if (path.endsWith("/manage/customer/add")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/add_customer.jsp");
             dispatcher.forward(request, response);
+            // staff
         } else if (path.endsWith("/manage/staff")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/manage_staff.jsp");
             dispatcher.forward(request, response);
-        }else if (path.endsWith("/manage/staff/add")) {
+        } else if (path.endsWith("/manage/staff/add")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/add_staff.jsp");
             dispatcher.forward(request, response);
-        }
-        else {
+
+            // product and category
+        } else if (path.endsWith("/manage/product")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/manage_product.jsp");
+            dispatcher.forward(request, response);
+        } else if (path.endsWith("/manage/product/addproduct")) {
+            out.print("Add product");
+        } else if (path.endsWith("/manage/product/addcategory")) {
+            out.print("Add category");
+        } else {
+            /*
+            Customer update and delete
+             */
             if (path.startsWith("/admin/manage/customer/edit")) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/edit_customer.jsp");
                 dispatcher.forward(request, response);
@@ -97,6 +110,10 @@ public class AdminController extends HttpServlet {
                 }
 
             }
+
+            /*
+            Staff update and delete
+             */
             if (path.startsWith("/admin/manage/staff/edit")) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/edit_staff.jsp");
                 dispatcher.forward(request, response);
@@ -116,6 +133,21 @@ public class AdminController extends HttpServlet {
                 }
 
             }
+            /*
+            Product update and delete
+             */
+            if (path.startsWith("/admin/manage/product/editproduct")) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/edit_product.jsp");
+                dispatcher.forward(request, response);
+            } else if (path.startsWith("/admin/manage/product/deleteproduct")) {
+
+            }
+            if (path.startsWith("/admin/manage/product/editcategory")) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/view/admin/edit_category.jsp");
+                dispatcher.forward(request, response);
+            } else if (path.startsWith("/admin/manage/product/deletecategory")) {
+
+            }
         }
     }
 
@@ -132,6 +164,7 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
 
+        // customer
         if (request.getParameter("btn_update_customer") != null) {
             String id, full_name, email,
                     password, phone, address, role_id;
@@ -160,7 +193,7 @@ public class AdminController extends HttpServlet {
             }
 
         }
-        
+
         if (request.getParameter("btn_insert_customer") != null) {
             String id, full_name, email,
                     password, phone, address, role_id;
@@ -192,7 +225,8 @@ public class AdminController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/manage/customer/add?error=1");
             }
         }
-        
+
+        // staff
         if (request.getParameter("btn_update_staff") != null) {
             String id, full_name, email,
                     password, phone, address, role_id;
@@ -221,10 +255,7 @@ public class AdminController extends HttpServlet {
             }
 
         }
-        
-        
-        
-        
+
         if (request.getParameter("btn_insert_staff") != null) {
             String id, full_name, email,
                     password, phone, address, role_id;
@@ -256,9 +287,24 @@ public class AdminController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/manage/staff/add?error=1");
             }
         }
-        
-        
 
+        // product 
+        if (request.getParameter("btn_update_product") != null) {
+
+        }
+
+        if (request.getParameter("btn_insert_product") != null) {
+
+        }
+
+        // category
+        if (request.getParameter("btn_update_category") != null) {
+
+        }
+
+        if (request.getParameter("btn_insert_category") != null) {
+
+        }
     }
 
     /**
