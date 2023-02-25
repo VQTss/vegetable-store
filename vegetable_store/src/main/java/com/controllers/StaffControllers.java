@@ -4,12 +4,16 @@
  */
 package com.controllers;
 
+import com.DAO.CartDAO;
+import com.models.Cart;
+import com.models.GenerateID;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
 
 /**
@@ -32,14 +36,36 @@ public class StaffControllers extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String path = request.getRequestURI();
+        HttpSession session = request.getSession();
         if (path.endsWith("/staff/order")) {
             request.getRequestDispatcher("/view/staff/order.jsp").forward(request, response);
         } else {
-            if (path.startsWith("/staff/cart")) {
-                request.getRequestDispatcher("/view/staff/cart.jsp").forward(request, response);
-            }else if (path.startsWith("/staff/cart/delete")) {
+            if (path.startsWith("/staff/cart/order")) {
                 String id = request.getParameter("id");
-                
+                GenerateID generateID = new GenerateID();
+                CartDAO aO = new CartDAO();
+                Cart c = aO.getCartByID(id);
+                if (session.getAttribute("payment_id") == null) {
+                    String payment_id = generateID.generateOrder("payment");
+                    String order_id = generateID.generateOrder("order");
+                    session.setAttribute("payment_id", payment_id);
+                    session.setAttribute("order_id", order_id);
+                } else {
+                    String payment_id = session.getAttribute("payment_id").toString();
+                    String order_id = session.getAttribute("order_id").toString();
+                }
+
+            } else if (path.startsWith("/staff/cart/delete")) {
+                String id = request.getParameter("id");
+                CartDAO cdao = new CartDAO();
+                int count = cdao.deleteCart(id);
+                if (count != 0) {
+                    response.sendRedirect(request.getContextPath() + "/staff/cart?delete_cart=1");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/staff/cart?delete_cart=2");
+                }
+            } else if (path.startsWith("/staff/cart")) {
+                request.getRequestDispatcher("/view/staff/cart.jsp").forward(request, response);
             }
         }
 
@@ -58,7 +84,7 @@ public class StaffControllers extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         if (request.getParameter("btn_add_cart_item") != null) {
-            String product_id , user_id , quantity , cart_id;
+            String product_id, user_id, quantity, cart_id;
         }
     }
 

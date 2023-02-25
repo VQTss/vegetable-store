@@ -5,6 +5,7 @@
 package com.DAO;
 
 import com.connections.DBConnections;
+import com.models.Cart;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,6 +68,26 @@ public class CartDAO {
         }
         return count;
         
+    }
+    
+    public Cart getCartByID(String cart_id){
+        Cart cart = null;
+        
+         String query = "SELECT * FROM `cart_item` WHERE cart_id=?";
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, cart_id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                cart = new Cart(rs.getString("cart_id"), rs.getInt("quantity"), rs.getString("product_id"), rs.getString("user_id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return cart;
     }
     
 }

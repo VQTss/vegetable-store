@@ -71,7 +71,6 @@
                                             <li class="list-inline-item">
                                                 <a class="btn btn-primary" href="<%= request.getContextPath()%>/staff/cart?id=<%= rs.getString("user_id")%>" >Cart</a>
                                             </li>
-                                            
                                         </ul>
                                     </td>
                                 </tr>

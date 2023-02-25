@@ -37,11 +37,28 @@
             <jsp:include page="../staff/sliderandnav.jsp"/>
 
             <div class="container-fluid px-4">
-                
 
-                
+
+
                 <div class="row my-5">
                     <h3 class="fs-4 mb-3">Recent Orders</h3>
+                    <%
+                        if (request.getParameter("delete_cart") != null) {
+                            if (request.getParameter("delete_cart").equals("1")) {
+                    %>
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <strong>Success!</strong> Delete  success.
+                    </div>
+                    <%
+                    } else if (request.getParameter("delete_cart").equals("2")) {
+                    %>
+                    <div class="alert alert-danger">
+                        <strong>Danger!</strong> Delete fail
+                    </div>
+                    <%
+                            }
+                        }
+                    %>
                     <div style="padding: 20px 10px" class="col  bg-white rounded shadow-sm  table-hover">
                         <table id="example" class="display" style="width:100%">
                             <thead>
@@ -64,15 +81,16 @@
                                 <tr>
                                     <td><%= elem.getString("cart_id")%></td>
                                     <td><%= elem.getString("user_id")%></td>
-                                    <td><%= elem.getDate("quantity")%></td>
-                                    <td></td>
+                                    <td><%= elem.getString("product_id")%></td>
+                                    <td>Quantity</td>
+                                    <td>Price</td>
                                     <td>
                                         <ul class="list-inline m-0">
                                             <li class="list-inline-item">
-                                                <a href="<%= request.getContextPath()%>/staff/cart/delete?id=<%= elem.getString("cart_id")%>"><button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button></a>
+                                                <a class="btn btn-primary" href="<%= request.getContextPath()%>/staff/cart/order?id=<%= elem.getString("cart_id")%>" >Accept</a>
                                             </li>
                                             <li class="list-inline-item">
-                                                <a href="<%= request.getContextPath()%>/admin/manage/staff/delete?id=<%= elem.getString("cart_id")%>"><button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button></a>
+                                                <a class="btn btn-primary" href="<%= request.getContextPath()%>/staff/cart/delete?id=<%= elem.getString("cart_id")%>" >Delete</a>
                                             </li>
                                         </ul>
                                     </td>
