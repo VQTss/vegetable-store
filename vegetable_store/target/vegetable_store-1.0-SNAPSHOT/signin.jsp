@@ -118,15 +118,34 @@
                                     }
                                 }
                             %>
+                            
+                             <%
+                                Cookie cookie = null;
+                                Cookie[] cookies = null;
+                                cookies = request.getCookies();
+                                String email = "";
+                                String pass = "";
+                                if (cookies != null) {
+                                    for (int i = 0; i < cookies.length; i++) {
+                                        cookie = cookies[i];
+                                        if (cookie.getName().equals("pass")) {
+                                            pass = cookie.getValue();
+                                        } else if (cookie.getName().equals("user")) {
+                                            email = cookie.getValue();
+                                        }
+                                    }
+                                }
+
+                            %>
                             <p class="error" id="txtError"></p> 
                             <form action="AccountController" method="POST"  onsubmit = "return checkAllData()">
                                 <div class="form-floating mb-3">
                                     <label for="floatingInput">Email address</label>
-                                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                    <input type="email" value="<%= email %>" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
                                 </div>
                                 <div class="form-floating mb-4">
                                     <label for="floatingPassword">Password</label>
-                                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                    <input type="password" value="<%= pass %>" name="password" class="form-control" id="floatingPassword" placeholder="Password">
 
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-4">

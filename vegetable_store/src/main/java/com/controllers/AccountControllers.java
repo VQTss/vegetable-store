@@ -11,6 +11,7 @@ import com.models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,31 +23,7 @@ import jakarta.servlet.http.HttpSession;
  */
 public class AccountControllers extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AccountControllers</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AccountControllers at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -122,7 +99,7 @@ public class AccountControllers extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/account/sign-up?error=1");
             }
         }
-
+        // 
         if (request.getParameter("btn_signin") != null) {
             HttpSession session = request.getSession();
             String email, password;
@@ -133,16 +110,35 @@ public class AccountControllers extends HttpServlet {
             if (acc == null) { // user name không ton tai
                 response.sendRedirect(request.getContextPath() + "/account/login?fail=1");
             } else {
-                
+
                 if (acc.getRole_id().equals("customer")) {
                     if (acc.getPassword().equals(password)) {
+                        if (request.getParameter("remember_me") != null) {
+                            Cookie pass = new Cookie("pass", acc.getPassword());
+                            Cookie user = new Cookie("user", acc.getEmail());
+                            user.setMaxAge(60 * 60 * 24);
+                            pass.setMaxAge(60 * 60 * 24);
+                            response.addCookie(user);
+                            response.addCookie(pass);
+                        }
                         session.setAttribute("name", acc.getEmail());
+                        session.setAttribute("login_done", "customer");
                         response.sendRedirect(request.getContextPath() + "/login/customer");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/account/login?fail=1");
                     }
                 } else if (acc.getRole_id().equals("admin")) {
                     if (acc.getPassword().equals(password)) {
+
+                        if (request.getParameter("remember_me") != null) {
+                            Cookie pass = new Cookie("pass", acc.getPassword());
+                            Cookie user = new Cookie("user", acc.getEmail());
+                            user.setMaxAge(60 * 60 * 24);
+                            pass.setMaxAge(60 * 60 * 24);
+                            response.addCookie(user);
+                            response.addCookie(pass);
+                        }
+                        session.setAttribute("login_done", "Admin");
                         session.setAttribute("admin", "done_admin");
                         response.sendRedirect(request.getContextPath() + "/login/admin");
                     } else {
@@ -150,7 +146,16 @@ public class AccountControllers extends HttpServlet {
                     }
                 } else if (acc.getRole_id().equals("staff")) {
                     if (acc.getPassword().equals(password)) {
-                        session.setAttribute("name_1", acc.getEmail());
+                        if (request.getParameter("remember_me") != null) {
+                            Cookie pass = new Cookie("pass", acc.getPassword());
+                            Cookie user = new Cookie("user", acc.getEmail());
+                            user.setMaxAge(60 * 60 * 24);
+                            pass.setMaxAge(60 * 60 * 24);
+                            response.addCookie(user);
+                            response.addCookie(pass);
+                        }
+                        session.setAttribute("login_done", "staff");
+                        session.setAttribute("name", acc.getEmail());
                         response.sendRedirect(request.getContextPath() + "/login/staff");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/account/login?fail=1");

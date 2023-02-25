@@ -33,7 +33,7 @@
         <!-- <link href="css/style.css" rel="stylesheet"> -->
         <script type="text/javascript">
             var patt_email = /^[a-zA-Z]+\w*([.-_]\w+)*\@[a-zA-Z]+\w*([.-_]\w+)*(\.\w+)+$/;
-            var patt_phone = /^0[1-9]\d{8,10}$/;
+            var patt_phone = /^0[1-9]\d{8,10}$/; // regex
 
             var errorArray = [];
 
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="floatingText">Full name</label>
-                                    <input type="text" name="full_name" class="form-control" id="floatingText" placeholder="Thai" ">
+                                    <input type="text" name="full_name" class="form-control" id="floatingText" placeholder="" ">
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="floatingInput">Email address</label>
@@ -138,9 +138,9 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                 </div>
-                                <button type="submit" name="btn_insert_staff" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
+                                <button type="submit" name="btn_insert_staff" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Add staff</button>
                             </form>
-                            <p class="text-center mb-0">Already have an Account? <a href="signin.jsp">Sign-In</a></p>
+                           
                             
                         </div>
                          

@@ -51,7 +51,7 @@ public class loginControllers extends HttpServlet {
             }
 
         } else if (path.endsWith("/login/staff")) {
-            if (session.getAttribute("name_1") != null) {
+            if (session.getAttribute("name") != null) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/view/staff/staff.jsp");
                 dispatcher.forward(request, response);
             } else {
