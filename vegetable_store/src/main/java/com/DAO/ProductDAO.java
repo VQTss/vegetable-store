@@ -267,7 +267,6 @@ public class ProductDAO {
         }
         return rs;
     }
-
    
 
 }
