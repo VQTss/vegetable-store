@@ -41,6 +41,24 @@ public class ProductDAO {
 
     }
 
+    
+      public ResultSet getAllProductByCategory(String category_id) {
+        ResultSet resultSet = null;
+        String query = "SELECT * FROM `product`"
+                + "LEFT OUTER JOIN product_category "
+                + "ON product.category_id = product_category.catagory_id "
+                + "WHERE product_category.catagory_id=?";
+        PreparedStatement pst;
+        try {
+            pst = conn.prepareStatement(query);
+            pst.setString(1, category_id);
+            resultSet = pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultSet;
+    }
+    
 
     public String usingSubstringMethod(String text, int length) {
         if (text.length() <= length) {
