@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -254,4 +255,28 @@ public class ProductDAO {
         return true;
     }
 
+    public ArrayList<Product> getProductByPrice(float min , float max){
+        ArrayList<Product> list = new ArrayList<>();
+        
+        String query = "SELECT * FROM `product` WHERE product.selling_price >= ? AND selling_price <= ?";
+        
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setFloat(1, min);
+            pst.setFloat(2, max);
+            ResultSet rs = pst.executeQuery();
+            
+            while (rs.next()) {                
+                Product p = new Product(rs.getString("product_id"), rs.getString("product_name"),
+                        rs.getFloat("selling_price"), rs.getString("category_id"),
+                        rs.getString("product_desc"), rs.getInt("quantity"), rs.getString("image"));
+                list.add(p);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+        
+    }
+    
 }

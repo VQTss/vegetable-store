@@ -11,6 +11,7 @@ com\models\Payment.class
 com\controllers\loginControllers.class
 com\controllers\AdminController.class
 com\controllers\AccountControllers.class
+com\controllers\ProductControllers.class
 com\DAO\OrderDetailDAO.class
 com\models\Product.class
 com\DAO\CartDAO.class

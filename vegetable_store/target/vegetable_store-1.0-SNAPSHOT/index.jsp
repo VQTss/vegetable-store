@@ -269,6 +269,7 @@
                             ResultSet set3 = pdao.getAllProductByCategory(set2.getString("catagory_id"));
                             while (set3.next()) {
                                 if (count <= 3) {
+                                    count++;
                     %>
                     <div class="col-lg-3 col-md-4 col-sm-6 mix <%= set3.getString("catagory_id")%>">
                         <div class="featured__item">
@@ -279,8 +280,8 @@
                             </div>
 
                             <div class="featured__item__text">
-                                <h6><a href="#"><%= set3.getString("product_name") %></a></h6>
-                                <h5>$<%= set3.getString("selling_price") %></h5>
+                                <h6><a href="#"><%= set3.getString("product_name")%></a></h6>
+                                <h5>$<%= set3.getString("selling_price")%></h5>
                             </div>
                         </div>
                     </div>
@@ -290,13 +291,8 @@
                                     break;
                                 }
                             }
-
                         }
-
                     %>
-
-
-                   
                 </div>
             </div>
         </section>

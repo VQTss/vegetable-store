@@ -20,6 +20,10 @@
         <servlet-name>StaffControllers</servlet-name>
         <servlet-class>com.controllers.StaffControllers</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductControllers</servlet-name>
+        <servlet-class>com.controllers.ProductControllers</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountControllers</servlet-name>
         <url-pattern>/account/*</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>StaffControllers</servlet-name>
         <url-pattern>/staff/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductControllers</servlet-name>
+        <url-pattern>/product/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
