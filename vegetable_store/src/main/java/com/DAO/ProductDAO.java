@@ -42,8 +42,7 @@ public class ProductDAO {
 
     }
 
-    
-      public ResultSet getAllProductByCategory(String category_id) {
+    public ResultSet getAllProductByCategory(String category_id) {
         ResultSet resultSet = null;
         String query = "SELECT * FROM `product`"
                 + "LEFT OUTER JOIN product_category "
@@ -59,7 +58,6 @@ public class ProductDAO {
         }
         return resultSet;
     }
-    
 
     public String usingSubstringMethod(String text, int length) {
         if (text.length() <= length) {
@@ -189,7 +187,7 @@ public class ProductDAO {
         return count;
     }
 
-    public int addCategory(String id, String name,String image) {
+    public int addCategory(String id, String name, String image) {
         int count = 0;
 
         String query = "INSERT INTO product_category "
@@ -255,28 +253,21 @@ public class ProductDAO {
         return true;
     }
 
-    public ArrayList<Product> getProductByPrice(float min , float max){
-        ArrayList<Product> list = new ArrayList<>();
-        
+    public ResultSet getProductByPrice(float min, float max) {
+        ResultSet rs = null;
         String query = "SELECT * FROM `product` WHERE product.selling_price >= ? AND selling_price <= ?";
-        
+
         try {
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setFloat(1, min);
             pst.setFloat(2, max);
-            ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {                
-                Product p = new Product(rs.getString("product_id"), rs.getString("product_name"),
-                        rs.getFloat("selling_price"), rs.getString("category_id"),
-                        rs.getString("product_desc"), rs.getInt("quantity"), rs.getString("image"));
-                list.add(p);
-            }
+            rs = pst.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return list;
-        
+        return rs;
     }
-    
+
+   
+
 }

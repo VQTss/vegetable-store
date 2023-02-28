@@ -4,12 +4,15 @@
  */
 package com.controllers;
 
+import com.DAO.ProductDAO;
+import com.models.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /**
  *
@@ -34,7 +37,7 @@ public class ProductControllers extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ProductControllers</title>");            
+            out.println("<title>Servlet ProductControllers</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ProductControllers at " + request.getContextPath() + "</h1>");
@@ -55,7 +58,9 @@ public class ProductControllers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        String path = request.getRequestURI();
+
     }
 
     /**
@@ -69,7 +74,11 @@ public class ProductControllers extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        String path = request.getRequestURI();
+        if (request.getParameter("btn_sort_price") != null) {
+            request.getRequestDispatcher("shop-grid.jsp").forward(request, response);
+        }
     }
 
     /**
