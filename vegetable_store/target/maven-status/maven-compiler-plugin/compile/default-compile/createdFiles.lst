@@ -7,6 +7,7 @@ com\DAO\OrderDAO.class
 com\models\Order.class
 com\DAO\UserDAO.class
 com\controllers\StaffControllers.class
+com\models\Payment.class
 com\controllers\loginControllers.class
 com\controllers\AdminController.class
 com\controllers\AccountControllers.class
@@ -14,7 +15,9 @@ com\DAO\OrderDetailDAO.class
 com\models\Product.class
 com\DAO\CartDAO.class
 com\models\User.class
+com\models\OrderDetails.class
 com\models\Account.class
+com\models\Cart.class
 com\connections\DBConnections.class
 com\DAO\ProductDAO.class
 com\models\GenerateID.class

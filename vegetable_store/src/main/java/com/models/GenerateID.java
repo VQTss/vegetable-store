@@ -114,7 +114,7 @@ public class GenerateID {
                 }
                 break;
             } else if (recognition.equals("payment")) {
-                id = "PAY" + String.valueOf(random_int);
+                id = "PAY_" + String.valueOf(random_int);
                 if (!paymentDAO.checkIDPayment(id)) {
                     break;
                 }

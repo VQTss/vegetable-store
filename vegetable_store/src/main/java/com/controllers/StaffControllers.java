@@ -5,8 +5,16 @@
 package com.controllers;
 
 import com.DAO.CartDAO;
+import com.DAO.OrderDAO;
+import com.DAO.OrderDetailDAO;
+import com.DAO.PaymentDAO;
+import com.DAO.ProductDAO;
 import com.models.Cart;
 import com.models.GenerateID;
+import com.models.Order;
+import com.models.OrderDetails;
+import com.models.Payment;
+import com.models.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,6 +22,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -38,35 +47,27 @@ public class StaffControllers extends HttpServlet {
         String path = request.getRequestURI();
         HttpSession session = request.getSession();
         if (path.endsWith("/staff/order")) {
-            request.getRequestDispatcher("/view/staff/order.jsp").forward(request, response);
+            request.getRequestDispatcher("/view/staff/staff.jsp").forward(request, response);
         } else {
-            if (path.startsWith("/staff/cart/order")) {
+            if (path.startsWith("/staff/order/buy")) {
+                request.getRequestDispatcher("/view/staff/buy_form.jsp").forward(request, response);
+            } else if (path.startsWith("/staff/order/delete")) {
                 String id = request.getParameter("id");
-                GenerateID generateID = new GenerateID();
-                CartDAO aO = new CartDAO();
-                Cart c = aO.getCartByID(id);
-                if (session.getAttribute("payment_id") == null) {
-                    String payment_id = generateID.generateOrder("payment");
-                    String order_id = generateID.generateOrder("order");
-                    session.setAttribute("payment_id", payment_id);
-                    session.setAttribute("order_id", order_id);
+                OrderDetailDAO detailDAO = new OrderDetailDAO();
+                OrderDAO dAO = new OrderDAO();
+                int check = detailDAO.deleteOrderDetails(id);
+                if (check != 0) {
+                    check = dAO.deleteOrder(id);
+                    if (check != 0) {
+                        response.sendRedirect(request.getContextPath() + "/staff/order?delete_success=1");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/staff/order?delete_success_fail=1");
+                    }
                 } else {
-                    String payment_id = session.getAttribute("payment_id").toString();
-                    String order_id = session.getAttribute("order_id").toString();
+                    response.sendRedirect(request.getContextPath() + "/staff/order?delete_success_fail=1");
                 }
-
-            } else if (path.startsWith("/staff/cart/delete")) {
-                String id = request.getParameter("id");
-                CartDAO cdao = new CartDAO();
-                int count = cdao.deleteCart(id);
-                if (count != 0) {
-                    response.sendRedirect(request.getContextPath() + "/staff/cart?delete_cart=1");
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/staff/cart?delete_cart=2");
-                }
-            } else if (path.startsWith("/staff/cart")) {
-                request.getRequestDispatcher("/view/staff/cart.jsp").forward(request, response);
             }
+           
         }
 
     }
@@ -83,8 +84,35 @@ public class StaffControllers extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        if (request.getParameter("btn_add_cart_item") != null) {
-            String product_id, user_id, quantity, cart_id;
+        if (request.getParameter("btn_checkout") != null) {
+            String order_id, payment_id;
+            order_id = request.getParameter("order_id");
+            payment_id = request.getParameter("payment_id");
+            OrderDetailDAO detailDAO = new OrderDetailDAO();
+            ArrayList<OrderDetails> list = detailDAO.getAllOrderDetailsByID(order_id);
+            float totalPrice = 0;
+            String user_id = "";
+            for (OrderDetails orderDetails : list) {
+                ProductDAO aO = new ProductDAO();
+                Product product = aO.getAllByID(orderDetails.getProduct_id());
+                totalPrice += (orderDetails.getQuantity() * product.getSelling_price());
+            }
+            PaymentDAO aO = new PaymentDAO();
+            OrderDAO dAO = new OrderDAO();
+            Order order = dAO.getOrderByID(order_id);
+            Payment payment = new Payment(payment_id, order.getUser_id(), totalPrice);
+            int check = aO.createPayement(payment);
+            if (check != 0) {
+                out.print("add payment success");
+                check = dAO.updatePaymentIDForOrder(payment.getPayment_id(), order_id);
+                if (check != 0) {
+                    response.sendRedirect(request.getContextPath() + "/staff/order?success=1");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/staff/order?fail=1");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/staff/order?fail=1");
+            }
         }
     }
 

@@ -4,9 +4,11 @@ E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\co
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\controllers\HomeController.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\DAO\OrderDAO.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\models\Category.java
+E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\models\Payment.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\controllers\StaffControllers.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\DAO\PaymentDAO.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\models\Order.java
+E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\models\OrderDetails.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\connections\DBConnections.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\DAO\CartDAO.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\DAO\OrderDetailDAO.java
@@ -16,5 +18,6 @@ E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\co
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\controllers\AdminController.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\models\Product.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\models\User.java
+E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\models\Cart.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\controllers\AccountControllers.java
 E:\Individual\Project\Vegetable\vegetable_store\vegetable_store\src\main\java\com\DAO\AccountDAO.java

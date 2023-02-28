@@ -1,3 +1,5 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="com.DAO.CateogoryDAO"%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -135,7 +137,6 @@
                     <div class="col-lg-3">
                         <div class="header__cart">
                             <ul>
-                                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                                 <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                             </ul>
                             <div class="header__cart__price">item: <span>$150.00</span></div>
@@ -159,17 +160,16 @@
                                 <span>All departments</span>
                             </div>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
-                                <li><a href="#">Fresh Bananas</a></li>
+                                <%
+                                    CateogoryDAO cdao = new CateogoryDAO();
+                                    ResultSet set = cdao.getAllCategory();
+                                    while (set.next()) {
+                                %>
+                                <li><a href="<%= set.getString("catagory_id")%>"><%= set.getString("category_name")%></a></li>
+                                    <%
+                                        }
+                                    %>
+
                             </ul>
                         </div>
                     </div>

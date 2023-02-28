@@ -256,6 +256,7 @@
                         <tr>
                             <th>Category id</th>
                             <th>Category name</th>
+                            <th>Category Image</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -266,6 +267,9 @@
                         <tr>
                             <td><%= resultSet.getString("catagory_id")%></td>
                             <td><%= resultSet.getString("category_name")%></td>
+                            <td>
+                                <img src="/img/categories/<%= resultSet.getString("image") %>" width="50px" height="50px" alt="alt"/>
+                            </td>
                             <td>
                                 <!-- Call to action buttons -->
                                 <ul class="list-inline m-0">
@@ -288,6 +292,7 @@
                         <tr>
                             <th>Category id</th>
                             <th>Category name</th>
+                            <th>Category Image</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>

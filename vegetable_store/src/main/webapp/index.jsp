@@ -1,3 +1,5 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="com.DAO.CateogoryDAO"%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -29,7 +31,7 @@
             <div class="loader"></div>
         </div>
 
-       
+
         <!-- Humberger Begin -->
         <div class="humberger__menu__overlay"></div>
         <div class="humberger__menu__wrapper">
@@ -134,7 +136,6 @@
                     <div class="col-lg-3">
                         <div class="header__cart">
                             <ul>
-                                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                                 <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                             </ul>
                         </div>
@@ -158,17 +159,15 @@
                                 <span>All departments</span>
                             </div>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
-                                <li><a href="#">Fresh Bananas</a></li>
+                                <%
+                                    CateogoryDAO cdao = new CateogoryDAO();
+                                    ResultSet set = cdao.getAllCategory();
+                                    while (set.next()) {
+                                %>
+                                <li><a href="<%= set.getString("catagory_id")%>"><%= set.getString("category_name")%></a></li>
+                                    <%
+                                        }
+                                    %>
                             </ul>
                         </div>
                     </div>
@@ -207,43 +206,34 @@
             </div>
         </section>
         <!-- Hero Section End -->
-        
+
         <!-- Categories Section Begin -->
         <section class="categories">
             <div class="container">
                 <div class="row">
                     <div class="categories__slider owl-carousel">
+
+                        <%
+                            ResultSet rs = cdao.getAllCategory();
+                            while (rs.next()) {
+                        %>
                         <div class="col-lg-3">
-                            <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg">
-                                <h5><a href="#">Fresh Fruit</a></h5>
+                            <div class="categories__item set-bg" data-setbg="img/categories/<%= rs.getString("image")%>">
+                                <h5><a href="<%= rs.getString("catagory_id")%>"><%= rs.getString("category_name")%></a></h5>
                             </div>
                         </div>
-                        <div class="col-lg-3">
-                            <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
-                                <h5><a href="#">Dried Fruit</a></h5>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
-                                <h5><a href="#">Vegetables</a></h5>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-                                <h5><a href="#">drink fruits</a></h5>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-                                <h5><a href="#">drink fruits</a></h5>
-                            </div>
-                        </div>
+
+                        <%
+                            }
+                        %>
+
+
                     </div>
                 </div>
             </div>
         </section>
         <!-- Categories Section End -->
-        
+
         <!-- Featured Section Begin -->
         <section class="featured spad">
             <div class="container">
@@ -255,10 +245,15 @@
                         <div class="featured__controls">
                             <ul>
                                 <li class="active" data-filter="*">All</li>
-                                <li data-filter=".oranges">Oranges</li>
-                                <li data-filter=".fresh-meat">Fresh Meat</li>
-                                <li data-filter=".vegetables">Vegetables</li>
-                                <li data-filter=".fastfood">Fastfood</li>
+                                    <%
+                                        ResultSet set1 = cdao.getAllCategory();
+                                        while (set1.next()) {
+                                    %>
+                                <li data-filter=".oranges"><%= set1.getString("category_name") %></li>
+                                    <%
+                                        }
+                                    %>
+
                             </ul>
                         </div>
                     </div>

@@ -51,7 +51,7 @@ public class CateogoryDAO {
             ResultSet s = pst.executeQuery();
             if (s.next()) {
                 // catagory_id,category_name
-                c = new Category(s.getString("catagory_id"), s.getString("category_name") );
+                c = new Category(s.getString("catagory_id"), s.getString("category_name"),s.getString("image") );
             }
         } catch (SQLException ex) {
             Logger.getLogger(CateogoryDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -344,7 +344,16 @@ public class AdminController extends HttpServlet {
             id = request.getParameter("id");
             name = request.getParameter("name");
             ProductDAO dAO = new ProductDAO();
-            int check = dAO.UpdateCategory(id, name);
+            Part filePart = request.getPart("image");
+            String fileName = filePart.getSubmittedFileName();
+            if (fileName.equals("")) {
+                fileName = request.getParameter("image1");
+            } else {
+                String filePath = "E:\\Individual\\Project\\Vegetable\\vegetable_store\\vegetable_store\\src\\main\\webapp\\img\\product\\" + fileName;
+                filePart.write(filePath);
+
+            }
+            int check = dAO.UpdateCategory(id, name,fileName);
            if (check != 0) {
                 response.sendRedirect(request.getContextPath() + "/admin/manage/product?update_category=1");
             } else {
@@ -353,11 +362,15 @@ public class AdminController extends HttpServlet {
         }
 
         if (request.getParameter("btn_insert_category") != null) {
-            String id, name;
+            String id, name,image;
             id = request.getParameter("id");
             name = request.getParameter("name");
+            Part filePart = request.getPart("image");
+            String fileName = filePart.getSubmittedFileName(); // tên file
+            String filePath = "E:\\Individual\\Project\\Vegetable\\vegetable_store\\vegetable_store\\src\\main\\webapp\\img\\categories\\" + fileName;
+            filePart.write(filePath);
             ProductDAO dAO = new ProductDAO();
-            int check = dAO.addCategory(id, name);
+            int check = dAO.addCategory(id, name,fileName);
             if (check != 0) {
                 response.sendRedirect(request.getContextPath() + "/admin/manage/product?add_category=1");
             } else {

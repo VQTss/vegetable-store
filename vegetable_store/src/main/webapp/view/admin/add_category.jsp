@@ -52,7 +52,7 @@
                     errorArray.push("Product name can't be empty");
                 if (desc == "")
                     errorArray.push("Description can't be empty");
-                if (patt_phone.test(quantity) ==    false)
+                if (patt_phone.test(quantity) == false)
                     errorArray.push("Quantity  is invalid");
                 if (patt_phone.test(price) == false)
                     errorArray.push("Price  is invalid");
@@ -100,21 +100,23 @@
 
                             </div>
                             <%
-                                
                                 GenerateID generateID = new GenerateID();
                                 String id = generateID.generateCategory();
                             %>
-                           
+
                             <p class="error" id="txtError"></p> 
                             <form action="AdminController" method="post" enctype="multipart/form-data" onsubmit = "return checkAllData()">
                                 <div class="form-floating mb-3">
-                                    <input type="hidden" name="id" value="<%= id %>"  class="form-control" id="floatingText" />
+                                    <input type="hidden" name="id" value="<%= id%>"  class="form-control" id="floatingText" />
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="product">Category name</label>
                                     <input type="text" name="name" class="form-control" id="product"  placeholder="Drink" />
                                 </div>
-
+                                <div class="form-floating mb-3">
+                                    <label for="floatingImage">Image</label>
+                                    <input type="file" name="image" class="form-control"  id="floatingImage" >
+                                </div>
                                 <button type="submit" name="btn_insert_category" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Add product</button>
                             </form>
 

@@ -116,7 +116,11 @@
                                     <label for="product">Category name</label>
                                     <input type="text" name="name" class="form-control"  value="<%= c.getName()%>"  id="product"  placeholder="Drink" />
                                 </div>
-
+                                   <div class="form-floating mb-3">
+                                    <label for="floatingImage">Image</label>
+                                    <input type="file" name="image" class="form-control"  id="floatingImage" >
+                                    <input type="hidden" value="<%= c.getImage()%>" name="image1" >
+                                </div>
                                 <button type="submit" name="btn_update_category" value="Sign Up" class="btn btn-primary py-3 w-100 mb-4">Add product</button>
                             </form>
 

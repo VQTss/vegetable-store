@@ -170,16 +170,17 @@ public class ProductDAO {
         return count;
     }
 
-    public int addCategory(String id, String name) {
+    public int addCategory(String id, String name,String image) {
         int count = 0;
 
         String query = "INSERT INTO product_category "
-                + "(catagory_id,category_name) VALUES (?,?)";
+                + "(catagory_id,category_name,image) VALUES (?,?,?)";
 
         try {
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, id);
             pst.setString(2, name);
+            pst.setString(3, image);
             count = pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -187,16 +188,17 @@ public class ProductDAO {
         return count;
     }
 
-    public int UpdateCategory(String id, String name) {
+    public int UpdateCategory(String id, String name, String image) {
         int count = 0;
 
         String query = "UPDATE product_category SET "
-                + "category_name=? WHERE catagory_id=?";
+                + "category_name=? , image=? WHERE catagory_id=?";
 
         try {
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, name);
-            pst.setString(2, id);
+            pst.setString(2, image);
+            pst.setString(3, id);
             count = pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);

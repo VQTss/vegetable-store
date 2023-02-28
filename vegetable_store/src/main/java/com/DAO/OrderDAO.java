@@ -43,6 +43,22 @@ public class OrderDAO {
 
         return rs;
     }
+    
+    
+    public int countOrderIsPaymented(){
+        int count = 0;
+        String query =  "SELECT * FROM `order` WHERE payment_id = null;";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet resultSet = pst.executeQuery();
+            while (resultSet.next()) {                
+                count++;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
 
     public Order getOrderByID(String order_id) {
         Order order = null;
@@ -61,6 +77,54 @@ public class OrderDAO {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return order;
+    }
+    
+    public int updatePaymentIDForOrder(String payment_id, String order_id){
+        int count = 0;
+        
+        String query ="UPDATE `order` "
+                + "SET `payment_id`=? "
+                + "WHERE `order`.`order_id`=? ";
+        
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, payment_id);
+            pst.setString(2, order_id);
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    
+    public int deleteOrder(String order_id){
+        int count = 0;
+        String query = "DELETE FROM `order` WHERE `order`.`order_id`=?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, order_id);
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    
+    
+    public ResultSet getAllOrderByUser(String user_id){
+        ResultSet resultSet = null;
+        
+        String query = "SELECT * FROM `order` WHERE user_id=?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, user_id);
+            resultSet = pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return resultSet;
     }
 
 }

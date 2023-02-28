@@ -1,3 +1,5 @@
+
+
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.models.Order"%>
 <%@page import="java.util.ArrayList"%>
@@ -37,7 +39,7 @@
 
             <div class="container-fluid px-4">
                 <div class="row g-3 my-2">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
                                 <%
@@ -51,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
                                 <%
@@ -66,29 +68,54 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">3899</h3>
-                                <p class="fs-5">Delivery</p>
+                                <%
+                                    OrderDAO aO1 = new OrderDAO();
+                                    int new_order = aO1.countOrderIsPaymented();
+                                %>
+                                <h3 class="fs-2"><%= new_order%></h3>
+
+                                <p class="fs-5">New order</p>
                             </div>
                             <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="fs-2">%25</h3>
-                                <p class="fs-5">Increase</p>
-                            </div>
-                            <i class="fas fa-chart-line fs-1 primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="row my-5">
                     <h3 class="fs-4 mb-3">Recent Orders</h3>
+                    <%
+                        if (request.getParameter("success") != null) {
+                    %>
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <strong>Success!</strong> Payment success.
+                    </div>
+                    <%
+                    } else if (request.getParameter("fail") != null) {
+                    %>
+                    <div class="alert alert-danger">
+                        <strong>Danger!</strong> Payment fail
+                    </div>
+                    <%
+                        }
+                        if (request.getParameter("delete_success") != null) {
+                    %>
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <strong>Success!</strong> Cancel success.
+                    </div>
+                    <%
+                    } else if (request.getParameter("delete_success_fail") != null) {
+                    %>
+                    <div class="alert alert-danger">
+                        <strong>Danger!</strong> Cancel fail
+                    </div>
+                    <%
+                        }
+                    %>
                     <div style="padding: 20px 10px" class="col  bg-white rounded shadow-sm  table-hover">
                         <table id="example" class="display" style="width:100%">
                             <thead>
@@ -101,10 +128,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <%
-                                    OrderDAO dAO = new OrderDAO();
+                                <%                                    OrderDAO dAO = new OrderDAO();
                                     ResultSet elem = dAO.getRecentOrder();
+
                                     while (elem.next()) {
+                                        if (elem.getString("payment_id") == null) {
                                 %>
                                 <tr>
                                     <td><%= elem.getString("order_id")%></td>
@@ -112,16 +140,21 @@
                                     <td><%= elem.getDate("order_date")%></td>
                                     <td><%= elem.getString("order_desc")%></td>
                                     <td>
-                            <li class="list-inline-item">
-                                <a href="<%= request.getContextPath()%>/staff/order/details?id=<%= elem.getString("order_id")%>"><button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button></a>
-                            </li>
-                            </td>
-                            </tr>
+                                        <ul class="list-inline m-0">
+                                            <li class="list-inline-item">
+                                                <a href="<%= request.getContextPath()%>/staff/order/buy?id=<%= elem.getString("order_id")%>"><button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Accept</button></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="<%= request.getContextPath()%>/staff/order/delete?id=<%= elem.getString("order_id")%>"><button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete">Delete</button></a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <%
+                                        }
+                                    }
 
-                            <%
-                                }
-
-                            %>
+                                %>
 
                             </tbody>
                             <tfoot>
