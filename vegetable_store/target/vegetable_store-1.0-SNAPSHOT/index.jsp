@@ -160,10 +160,10 @@
                                         int count = cartDAO.countCartProductByCustomer(user.getUser_id());
                                         float total = cartDAO.totalProduct(user.getUser_id());
                             %>
-                             <ul>
-                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i><span><%= count %></span></a></li>
+                            <ul>
+                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i><span><%= count%></span></a></li>
                             </ul>
-                                <div class="header__cart__price">item: <span>$<%= total %></span></div>
+                            <div class="header__cart__price">item: <span>$<%= total%></span></div>
                             <%                                    }
                                 }
                             %>
@@ -242,10 +242,17 @@
                 UserDAO userDAO = new UserDAO();
                 User user = userDAO.getUserByEmail(email);
                 String product_id = request.getParameter("id");
-                GenerateID generateID = new GenerateID();
-                Cart cart = new Cart(generateID.generateCart(), 1, product_id, user.getUser_id());
-                ProductDAO productDAO = new ProductDAO();
-                int check = productDAO.addToCardProduct(cart);
+                CartDAO cartDAO = new CartDAO();
+                int check = 0;
+                if (cartDAO.checkIDCartInProduct(product_id)) {
+                    GenerateID generateID = new GenerateID();
+                    Cart cart = new Cart(generateID.generateCart(), 1, product_id, user.getUser_id());
+                    ProductDAO productDAO = new ProductDAO();
+                    check = productDAO.addToCardProduct(cart);
+                } else {
+                    
+                }
+
                 if (check != 0) {
         %>
         <script>

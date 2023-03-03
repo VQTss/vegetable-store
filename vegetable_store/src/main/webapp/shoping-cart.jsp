@@ -43,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                        <form  action="/product"method="post" >
                             <%
                                 CartDAO cartDAO = new CartDAO();
                                 if (request.getParameter("id") != null) {
@@ -65,13 +65,14 @@
                                     <img width="50px" height="50px" src="/img/product/<%= product.getImage()%>" alt="">
                                     <h5><%= product.getProduct_name()%></h5>
                                 </td>
+                            <input type="hidden" id="id" name="cart_id" value="<%= resultSet.getString("cart_id")  %>">
                                 <td class="shoping__cart__price">
                                     $<%= product.getSelling_price()%>
                                 </td>
                                 <td class="shoping__cart__quantity">
                                     <div class="quantity">
                                         <div class="pro-qty">
-                                            <input type="text" value="<%= resultSet.getInt("quantity")%>">
+                                            <input type="text" name="quantity" value="<%= resultSet.getInt("quantity")%>">
                                         </div>
                                     </div>
                                 </td>
@@ -94,14 +95,12 @@
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
                     <button  class="primary-btn cart-btn">CONTINUE SHOPPING</button>
-                    <form style="display: inline-block;
-                          float: right;" action="/product">
+                    
                         <input type="submit" value="Upadate Cart" class="primary-btn cart-btn cart-btn-right" name="update_cart">
                     </form>
                 </div>
             </div>
             <div class="col-lg-6">
-
             </div>
             <div class="col-lg-6">
                 <div class="shoping__checkout">

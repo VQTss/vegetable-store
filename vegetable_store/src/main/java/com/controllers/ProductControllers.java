@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -91,7 +92,10 @@ public class ProductControllers extends HttpServlet {
         }
         
         if (request.getParameter("update_cart") != null) {
-           
+            String[] quanties = request.getParameterValues("quantity");
+            String[] cart_ids = request.getParameterValues("cart_id");
+            out.print(Arrays.toString(quanties));
+            out.print(Arrays.toString(cart_ids));
         }
     }
 

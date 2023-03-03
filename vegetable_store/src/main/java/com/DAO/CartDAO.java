@@ -45,6 +45,23 @@ public class CartDAO {
 
     }
 
+    public boolean checkIDCartInProduct(String product_id) {
+        String query = "SELECT * FROM `cart_item` WHERE product_id=?";
+
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, product_id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+
+    }
+
     public ResultSet getAllCartByID(String user_id) {
         ResultSet set = null;
         String query = "SELECT * FROM `cart_item` WHERE user_id=?";
