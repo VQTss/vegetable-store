@@ -89,6 +89,10 @@ public class ProductControllers extends HttpServlet {
         if (request.getParameter("btn_sort_price") != null) {
             request.getRequestDispatcher("shop-grid.jsp").forward(request, response);
         }
+        
+        if (request.getParameter("update_cart") != null) {
+           
+        }
     }
 
     /**
