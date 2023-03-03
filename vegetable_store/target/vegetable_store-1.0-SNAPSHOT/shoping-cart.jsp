@@ -1,4 +1,10 @@
 
+<%@page import="com.models.Product"%>
+<%@page import="com.DAO.ProductDAO"%>
+<%@page import="com.models.User"%>
+<%@page import="com.DAO.UserDAO"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="com.DAO.CartDAO"%>
 <jsp:include page="header.jsp" />
 
 
@@ -37,72 +43,56 @@
                             </tr>
                         </thead>
                         <tbody>
+
+                            <%
+                                 CartDAO cartDAO = new CartDAO();
+                                if (request.getParameter("id") != null) {
+                                    String cart_id = request.getParameter("id");
+                                cartDAO.deleteCart(cart_id);
+                                    }
+                                
+                                
+                                
+                                
+                               
+                                String email = session.getAttribute("name").toString();
+                                UserDAO userDAO = new UserDAO();
+                                User user = userDAO.getUserByEmail(email);
+                                ResultSet resultSet = cartDAO.getAllCartByID(user.getUser_id());
+                                float total = cartDAO.totalProduct(user.getUser_id());
+                                
+                                
+                                
+                                
+                                while (resultSet.next()) {
+                                    ProductDAO productDAO = new ProductDAO();
+                                    Product product = productDAO.getProductById(resultSet.getString("product_id"));
+                            %>
                             <tr>
                                 <td class="shoping__cart__item">
-                                    <img src="/img/cart/cart-1.jpg" alt="">
-                                    <h5>Vegetable’s Package</h5>
+                                    <img width="50px" height="50px" src="/img/product/<%= product.getImage()%>" alt="">
+                                    <h5><%= product.getProduct_name() %></h5>
                                 </td>
                                 <td class="shoping__cart__price">
-                                    $55.00
+                                    $<%= product.getSelling_price()%>
                                 </td>
                                 <td class="shoping__cart__quantity">
                                     <div class="quantity">
                                         <div class="pro-qty">
-                                            <input type="text" value="1">
+                                            <a href="#"><input type="text" value="<%= resultSet.getInt("quantity") %>"></a>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="shoping__cart__total">
-                                    $110.00
+                                    $<%= product.getSelling_price() *  resultSet.getInt("quantity") %>
                                 </td>
                                 <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
+                                    <a href="?id=<%= resultSet.getString("cart_id") %>"><span class="icon_close"></span></a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <img src="/img/cart/cart-2.jpg" alt="">
-                                    <h5>Fresh Garden Vegetable</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    $39.00
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    $39.99
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <img src="/img/cart/cart-3.jpg" alt="">
-                                    <h5>Organic Bananas</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    $69.00
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    $69.99
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
-                                </td>
-                            </tr>
+                            <%
+                                }
+                            %>
                         </tbody>
                     </table>
                 </div>
@@ -117,22 +107,14 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="shoping__continue">
-                    <div class="shoping__discount">
-                        <h5>Discount Codes</h5>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">APPLY COUPON</button>
-                        </form>
-                    </div>
-                </div>
+              
             </div>
             <div class="col-lg-6">
                 <div class="shoping__checkout">
                     <h5>Cart Total</h5>
                     <ul>
-                        <li>Subtotal <span>$454.98</span></li>
-                        <li>Total <span>$454.98</span></li>
+                        <li>Subtotal <span>$<%= total %></span></li>
+                        <li>Total <span>$<%= total %></span></li>
                     </ul>
                     <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>

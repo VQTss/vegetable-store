@@ -149,11 +149,12 @@
                                         UserDAO userDAO = new UserDAO();
                                         User user = userDAO.getUserByEmail(email);
                                         int count = cartDAO.countCartProductByCustomer(user.getUser_id());
+                                         float total = cartDAO.totalProduct(user.getUser_id());
                             %>
                             <ul>
                                 <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i><span><%= count %></span></a></li>
                             </ul>
-                            <div class="header__cart__price">item: <span>$150.00</span></div>
+                             <div class="header__cart__price">item: <span>$<%= total %></span></div>
                             <%                                    }
                                 }
                             %>
