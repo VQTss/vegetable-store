@@ -55,7 +55,7 @@
             </div>
             <nav class="humberger__menu__nav mobile-menu">
                 <ul>
-                    <li class="active"><a href="./index.jsp">Home</a></li>
+                    <li class="active"><a href="/">Home</a></li>
                     <li><a href="./shop-grid.jsp">Shop</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
@@ -95,6 +95,19 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="header__top__right">
 
+                                <%
+                                    if (session.getAttribute("login_done") != null) {
+
+                                        if (session.getAttribute("login_done").equals("customer")) {
+                                %>
+                                <div class="header__top__right__auth">
+                                    <a href="/login/customer"><i class="fa fa-user"></i> Dashboard</a>
+                                </div>
+
+                                <%
+                                    }
+                                } else {
+                                %>
                                 <div class="header__top__right__auth">
                                     <a href="account/sign-up"><i class="fa fa-user-plus nav-item active" aria-hidden="false"></i>Sign-up</a>
                                 </div>
@@ -104,6 +117,9 @@
                                 <div class="header__top__right__auth">
                                     <a href="account/login"><i class="fa fa-user"></i> Login</a>
                                 </div>
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>
@@ -119,25 +135,17 @@
                     <div class="col-lg-6">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./index.jsp">Home</a></li>
-                                <li><a href="./shop-grid.jsp">Shop</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="header__menu__dropdown">
-                                        <li><a href="./shop-details.jsp">Shop Details</a></li>
-                                        <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                                        <li><a href="./checkout.jsp">Check Out</a></li>
-                                        <li><a href="./blog-details.jsp">Blog Details</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.jsp">Blog</a></li>
-                                <li><a href="./contact.jsp">Contact</a></li>
+                                <li class="active"><a href="/">Home</a></li>
+                                <li><a href="/product/all">Shop</a></li>
+                                <li><a href="/product/blog">Blog</a></li>
+                                <li><a href="/product/contact">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3">
                         <div class="header__cart">
                             <ul>
-                                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -262,20 +270,30 @@
                 <div class="row featured__filter">
                     <%
                         ResultSet set2 = cdao.getAllCategory();
-                        int count = 1;
+                        int count = 0;
                         while (set2.next()) {
 
                             ProductDAO pdao = new ProductDAO();
                             ResultSet set3 = pdao.getAllProductByCategory(set2.getString("catagory_id"));
                             while (set3.next()) {
-                                if (count <= 3) {
+                                if (count < 3) {
                                     count++;
                     %>
                     <div class="col-lg-3 col-md-4 col-sm-6 mix <%= set3.getString("catagory_id")%>">
                         <div class="featured__item">
                             <div class="featured__item__pic set-bg" data-setbg="img/product/<%= set3.getString("product.image")%>">
                                 <ul class="featured__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <%
+                                        if (session.getAttribute("login_done") != null) {
+                                    %>
+                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                            } else {
+                                            %>
+                                    <li><a href="/account/login"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                                }
+                                            %>
                                 </ul>
                             </div>
 
@@ -317,7 +335,7 @@
         </div>
         <!-- Banner End -->
 
-       
+
 
         <!-- Blog Section Begin -->
         <section class="from-blog spad">

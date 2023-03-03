@@ -15,14 +15,14 @@
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
         <!-- Css Styles -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-        <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+        <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
     </head>
 
     <body>
@@ -35,7 +35,7 @@
         <div class="humberger__menu__overlay"></div>
         <div class="humberger__menu__wrapper">
             <div class="humberger__menu__logo">
-                <a href="#"><img src="img/logo.png" alt=""></a>
+                <a href="#"><img src="/img/logo.png" alt=""></a>
             </div>
             <div class="humberger__menu__cart">
                 <ul>
@@ -54,7 +54,7 @@
             </div>
             <nav class="humberger__menu__nav mobile-menu">
                 <ul>
-                    <li class="active"><a href="./index.jsp">Home</a></li>
+                    <li class="active"><a href="/">Home</a></li>
                     <li><a href="./shop-grid.jsp">Shop</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
@@ -95,6 +95,9 @@
                         <div class="col-lg-6">
                             <div class="header__top__right">
 
+                                <%
+                                    if (!session.getAttribute("login_done").equals("customer")) {
+                                %>
                                 <div class="header__top__right__auth">
                                     <a href="account/sign-up"><i class="fa fa-user-plus nav-item active" aria-hidden="false"></i>Sign-up</a>
                                 </div>
@@ -104,6 +107,11 @@
                                 <div class="header__top__right__auth">
                                     <a href="account/login"><i class="fa fa-user"></i> Login</a>
                                 </div>
+                                <%
+                                    }
+                                %>
+
+
                             </div>
                         </div>
                     </div>
@@ -119,25 +127,17 @@
                     <div class="col-lg-6">
                         <nav class="header__menu">
                             <ul>
-                                <li><a href="./index.jsp">Home</a></li>
-                                <li><a href="./shop-grid.jsp">Shop</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="header__menu__dropdown">
-                                        <li><a href="./shop-details.jsp">Shop Details</a></li>
-                                        <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                                        <li><a href="./checkout.jsp">Check Out</a></li>
-                                        <li><a href="./blog-details.jsp">Blog Details</a></li>
-                                    </ul>
-                                </li>
-                                <li class="active"><a href="./blog.jsp">Blog</a></li>
-                                <li><a href="./contact.jsp">Contact</a></li>
+                                <li class="active"><a href="/">Home</a></li>
+                                <li><a href="/product/all">Shop</a></li>
+                                <li><a href="/product/blog">Blog</a></li>
+                                <li><a href="/product/contact">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3">
                         <div class="header__cart">
                             <ul>
-                                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                             </ul>
                             <div class="header__cart__price">item: <span>$150.00</span></div>
                         </div>
@@ -160,8 +160,7 @@
                                 <span>All departments</span>
                             </div>
                             <ul>
-                                <%
-                                    CateogoryDAO cdao = new CateogoryDAO();
+                                <%                                    CateogoryDAO cdao = new CateogoryDAO();
                                     ResultSet set = cdao.getAllCategory();
                                     while (set.next()) {
                                 %>

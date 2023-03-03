@@ -8,7 +8,7 @@
                 <div class="breadcrumb__text">
                     <h2>Contact Us</h2>
                     <div class="breadcrumb__option">
-                        <a href="./index.jsp">Home</a>
+                        <a href="/">Home</a>
                         <span>Contact Us</span>
                     </div>
                 </div>

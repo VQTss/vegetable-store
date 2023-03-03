@@ -267,6 +267,22 @@ public class ProductDAO {
         }
         return rs;
     }
+    
+     public ResultSet getProductByPriceByCategory(float min, float max , String id_category) {
+        ResultSet rs = null;
+        String query = "SELECT * FROM `product` WHERE product.selling_price >= ? AND selling_price <= ? AND category_id=?";
+
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setFloat(1, min);
+            pst.setFloat(2, max);
+            pst.setString(3, id_category);
+            rs = pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
    
 
 }

@@ -6,14 +6,14 @@
 <%@page import="com.DAO.CateogoryDAO"%>
 <jsp:include page="header.jsp" />
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
                     <h2>Organi Shop</h2>
                     <div class="breadcrumb__option">
-                        <a href="./index.jsp">Home</a>
+                        <a href="/">Home</a>
                         <span>Shop</span>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                                 ResultSet set = cdao.getAllCategory();
                                 while (set.next()) {
                             %>
-                            <li><a href="<%= set.getString("catagory_id")%>"><%= set.getString("category_name")%></a></li>
+                            <li><a href="?id=<%= set.getString("catagory_id")%>" ><%= set.getString("category_name")%></a></li>
                                 <%
                                     }
                                 %>
@@ -90,7 +90,7 @@
                             %>
                             <div class="filter__found">
                                 <h6><span>
-                                        <%= count_product %>
+                                        <%= count_product%>
                                     </span> Products found</h6>
                             </div>
                         </div>
@@ -103,18 +103,67 @@
                     </div>
                 </div>
                 <div class="row">
-                    <%                        if (request.getParameter("minamount") != null && request.getParameter("maxamount") != null) {
+                    <%
+
+                        if (request.getParameter("minamount") != null && request.getParameter("maxamount") != null && request.getParameter("id") != null) {
                             String min = request.getParameter("minamount").substring(1);
                             String max = request.getParameter("maxamount").substring(1);
-                            ProductDAO pdao = new ProductDAO();
-                            ResultSet set1 = pdao.getProductByPrice(Float.valueOf(min), Float.valueOf(max));
-                            while (set1.next()) {
+                            String category_id = request.getParameter("id");
+                            ProductDAO productDAO = new ProductDAO();
+                            ResultSet resultSet = productDAO.getProductByPriceByCategory(Float.valueOf(min), Float.valueOf(max), category_id);
+                            while (resultSet.next()) {
                     %>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/<%= set1.getString("image")%>">
+                            <div class="product__item__pic set-bg" data-setbg="/img/product/<%= resultSet.getString("image")%>">
                                 <ul class="product__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <%
+                                        if (session.getAttribute("login_done") != null) {
+                                    %>
+                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                            } else {
+                                            %>
+                                    <li><a href="/account/login"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                                }
+                                            %>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="#"><%= resultSet.getString("product_name")%></a></h6>
+                                <h5>$<%= resultSet.getString("selling_price")%></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <%
+                        }
+
+                    } else if (request.getParameter("minamount") != null && request.getParameter("maxamount") != null) {
+                        String min = request.getParameter("minamount").substring(1);
+                        String max = request.getParameter("maxamount").substring(1);
+                        ProductDAO pdao = new ProductDAO();
+                        ResultSet set1 = pdao.getProductByPrice(Float.valueOf(min), Float.valueOf(max));
+                        while (set1.next()) {
+                    %>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="/img/product/<%= set1.getString("image")%>">
+                                <ul class="product__item__pic__hover">
+
+                                    <%
+                                        if (session.getAttribute("login_done") != null) {
+                                    %>
+                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                            } else {
+                                            %>
+                                    <li><a href="/account/login"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                                }
+                                            %>
+
+
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -126,6 +175,37 @@
 
                     <%
                         }
+                    } else if (request.getParameter("id") != null) {
+                        String category_id = request.getParameter("id");
+                        ProductDAO pdao = new ProductDAO();
+                        ResultSet rs = pdao.getAllProductByCategory(category_id);
+                        while (rs.next()) {
+                    %>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="/img/product/<%= rs.getString("image")%>">
+                                <ul class="product__item__pic__hover">
+                                    <%
+                                        if (session.getAttribute("login_done") != null) {
+                                    %>
+                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                            } else {
+                                            %>
+                                    <li><a href="/account/login"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                                }
+                                            %>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="#"><%= rs.getString("product_name")%></a></h6>
+                                <h5>$<%= rs.getString("selling_price")%></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <%
+                        }
                     } else {
                         ProductDAO pdao = new ProductDAO();
                         ResultSet rs = pdao.getAllProduct();
@@ -134,9 +214,19 @@
 
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/<%= rs.getString("image")%>">
+                            <div class="product__item__pic set-bg" data-setbg="/img/product/<%= rs.getString("image")%>">
                                 <ul class="product__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <%
+                                        if (session.getAttribute("login_done") != null) {
+                                    %>
+                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                            } else {
+                                            %>
+                                    <li><a href="/account/login"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <%
+                                                }
+                                            %>
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -156,13 +246,9 @@
 
 
             </div>
-            <div class="product__pagination">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-            </div>
+
         </div>
+
     </div>
 </section>
 <!-- Product Section End -->

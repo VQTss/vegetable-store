@@ -60,7 +60,17 @@ public class ProductControllers extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String path = request.getRequestURI();
-
+        if (path.startsWith("/product/cart")) {
+            request.getRequestDispatcher("/shoping-cart.jsp").forward(request, response);
+            
+        }
+        if (path.endsWith("/product/all")) {
+            request.getRequestDispatcher("/shop-grid.jsp").forward(request, response);
+        }else if (path.endsWith("/product/contact")) {
+            request.getRequestDispatcher("/contact.jsp").forward(request, response);
+        }else if (path.endsWith("/product/blog")) {
+            request.getRequestDispatcher("/blog.jsp").forward(request, response);
+        }
     }
 
     /**
