@@ -85,7 +85,7 @@ public class GenerateID {
         while (true) {
             int random_int = (int) (Math.random() * (max - min + 1) + min);
             id = "CAR_" + String.valueOf(random_int);
-            if (!aO.checkIDCart(id)) {
+            if (aO.checkIDCart(id)) {
                 break;
             }
         }

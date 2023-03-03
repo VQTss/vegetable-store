@@ -5,6 +5,7 @@
 package com.DAO;
 
 import com.connections.DBConnections;
+import com.models.Cart;
 import com.models.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -267,8 +268,8 @@ public class ProductDAO {
         }
         return rs;
     }
-    
-     public ResultSet getProductByPriceByCategory(float min, float max , String id_category) {
+
+    public ResultSet getProductByPriceByCategory(float min, float max, String id_category) {
         ResultSet rs = null;
         String query = "SELECT * FROM `product` WHERE product.selling_price >= ? AND selling_price <= ? AND category_id=?";
 
@@ -283,6 +284,21 @@ public class ProductDAO {
         }
         return rs;
     }
-   
+
+    public int addToCardProduct(Cart cart) {
+        int count = 0;
+        String query = "INSERT INTO `cart_item` (`cart_id`, `quantity`, `product_id`, `user_id`) VALUES (?,?,?,?);";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, cart.getCard_id());
+            pst.setInt(2, cart.getQuantity());
+            pst.setString(3, cart.getProduct_id());
+            pst.setString(4, cart.getUser_id());
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
 
 }

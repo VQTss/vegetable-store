@@ -1,3 +1,6 @@
+<%@page import="com.models.User"%>
+<%@page import="com.DAO.UserDAO"%>
+<%@page import="com.DAO.CartDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.DAO.CateogoryDAO"%>
 <!DOCTYPE html>
@@ -136,10 +139,26 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="header__cart">
+                            <div class="header__cart">
+                            <%
+                                if (session.getAttribute("login_done") != null) {
+
+                                    if (session.getAttribute("login_done").equals("customer")) {
+                                        CartDAO cartDAO = new CartDAO();
+                                        String email = session.getAttribute("name").toString();
+                                        UserDAO userDAO = new UserDAO();
+                                        User user = userDAO.getUserByEmail(email);
+                                        int count = cartDAO.countCartProductByCustomer(user.getUser_id());
+                            %>
                             <ul>
-                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i><span><%= count %></span></a></li>
                             </ul>
                             <div class="header__cart__price">item: <span>$150.00</span></div>
+                            <%                                    }
+                                }
+                            %>
+                        </div>
+                            
                         </div>
                     </div>
                 </div>

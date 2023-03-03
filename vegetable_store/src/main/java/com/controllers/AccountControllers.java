@@ -123,7 +123,7 @@ public class AccountControllers extends HttpServlet {
                         }
                         session.setAttribute("name", acc.getEmail());
                         session.setAttribute("login_done", "customer");
-                        response.sendRedirect(request.getContextPath() + "/login/customer");
+                        response.sendRedirect(request.getContextPath() + "/");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/account/login?fail=1");
                     }

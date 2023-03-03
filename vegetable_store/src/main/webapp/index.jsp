@@ -1,3 +1,8 @@
+<%@page import="com.DAO.CartDAO"%>
+<%@page import="com.models.GenerateID"%>
+<%@page import="com.models.Cart"%>
+<%@page import="com.models.User"%>
+<%@page import="com.DAO.UserDAO"%>
 <%@page import="com.DAO.ProductDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.DAO.CateogoryDAO"%>
@@ -144,9 +149,22 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="header__cart">
+                            <%
+                                if (session.getAttribute("login_done") != null) {
+
+                                    if (session.getAttribute("login_done").equals("customer")) {
+                                        CartDAO cartDAO = new CartDAO();
+                                        String email = session.getAttribute("name").toString();
+                                        UserDAO userDAO = new UserDAO();
+                                        User user = userDAO.getUserByEmail(email);
+                                        int count = cartDAO.countCartProductByCustomer(user.getUser_id());
+                            %>
                             <ul>
-                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i><span><%= count %></span></a></li>
                             </ul>
+                            <%                                    }
+                                }
+                            %>
                         </div>
                     </div>
                 </div>
@@ -216,14 +234,41 @@
         </section>
         <!-- Hero Section End -->
 
+        <%
+            if (request.getParameter("id") != null) {
+                String email = session.getAttribute("name").toString();
+                UserDAO userDAO = new UserDAO();
+                User user = userDAO.getUserByEmail(email);
+                String product_id = request.getParameter("id");
+                GenerateID generateID = new GenerateID();
+                Cart cart = new Cart(generateID.generateCart(), 1, product_id, user.getUser_id());
+                ProductDAO productDAO = new ProductDAO();
+                int check = productDAO.addToCardProduct(cart);
+                if (check != 0) {
+        %>
+        <script>
+            window.alert("Add to cart success");
+        </script>
+        <%
+        } else {
+        %>
+        <script>
+            window.alert("Add to cart fail");
+        </script>
+        <%
+                }
+            }
+
+        %>
+
+
         <!-- Categories Section Begin -->
         <section class="categories">
             <div class="container">
                 <div class="row">
                     <div class="categories__slider owl-carousel">
 
-                        <%
-                            ResultSet rs = cdao.getAllCategory();
+                        <%                            ResultSet rs = cdao.getAllCategory();
                             while (rs.next()) {
                         %>
                         <div class="col-lg-3">
@@ -286,7 +331,7 @@
                                     <%
                                         if (session.getAttribute("login_done") != null) {
                                     %>
-                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="<%= request.getContextPath()%>?id=<%= set3.getString("product_id")%>"><i class="fa fa-shopping-cart"></i></a></li>
                                             <%
                                             } else {
                                             %>

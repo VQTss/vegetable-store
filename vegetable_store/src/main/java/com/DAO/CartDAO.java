@@ -33,7 +33,9 @@ public class CartDAO {
             pst.setString(1, cart_id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                return false;
+                if (rs.getString("cart_id").equals(cart_id)) {
+                    return false;
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,6 +90,24 @@ public class CartDAO {
         
         
         return cart;
+    }
+    
+    
+    public int countCartProductByCustomer(String user_id){
+        int count = 0;
+        
+        String query = "SELECT COUNT(*) FROM `cart_item` WHERE user_id = ?";
+        
+        try {
+            PreparedStatement  pst = conn.prepareStatement(query);
+            pst.setString(1, user_id);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            count = rs.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
     }
     
 }
