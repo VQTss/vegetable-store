@@ -108,18 +108,39 @@ public class CartDAO {
 
         return cart;
     }
+    
+    
+    public Cart getCartByProduct(String product_id) {
+        Cart cart = null;
+
+        String query = "SELECT * FROM `cart_item` WHERE product_id=?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, product_id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                cart = new Cart(rs.getString("cart_id"), rs.getInt("quantity"), rs.getString("product_id"), rs.getString("user_id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return cart;
+    }
 
     public int countCartProductByCustomer(String user_id) {
         int count = 0;
 
-        String query = "SELECT COUNT(*) FROM `cart_item` WHERE user_id = ?";
+        String query = "SELECT * FROM `cart_item` WHERE user_id = ?";
 
         try {
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, user_id);
             ResultSet rs = pst.executeQuery();
-            rs.next();
-            count = rs.getInt(1);
+            while (rs.next()) {                
+                count += rs.getInt("quantity");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,4 +1,9 @@
 
+<%@page import="com.models.Cart"%>
+<%@page import="com.models.GenerateID"%>
+<%@page import="com.DAO.CartDAO"%>
+<%@page import="com.models.User"%>
+<%@page import="com.DAO.UserDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.models.Product"%>
 <%@page import="com.DAO.ProductDAO"%>
@@ -103,9 +108,45 @@
                     </div>
                 </div>
                 <div class="row">
-                    <%
 
-                        if (request.getParameter("minamount") != null && request.getParameter("maxamount") != null && request.getParameter("id") != null) {
+
+                    <%
+                        if (request.getParameter("order") != null) {
+                            String email = session.getAttribute("name").toString();
+                            UserDAO userDAO = new UserDAO();
+                            User user = userDAO.getUserByEmail(email);
+                            String product_id = request.getParameter("order");
+                            CartDAO cartDAO = new CartDAO();
+                            int check = 0;
+                            if (cartDAO.checkIDCartInProduct(product_id)) {
+                                GenerateID generateID = new GenerateID();
+                                Cart cart = new Cart(generateID.generateCart(), 1, product_id, user.getUser_id());
+                                ProductDAO productDAO = new ProductDAO();
+                                check = productDAO.addToCardProduct(cart);
+                            } else {
+                                Cart cart = cartDAO.getCartByProduct(product_id);
+                                ProductDAO productDAO = new ProductDAO();
+                                check = productDAO.addToCardProduct(cart.getQuantity() + 1, product_id);
+                            }
+
+                            if (check != 0) {
+                    %>
+                    <script>
+                        window.alert("Add to cart success");
+                    </script>
+                    <%
+                    } else {
+                    %>
+                    <script>
+                        window.alert("Add to cart fail");
+                    </script>
+                    <%
+                            }
+                        }
+
+                    %>
+
+                    <%                        if (request.getParameter("minamount") != null && request.getParameter("maxamount") != null && request.getParameter("id") != null) {
                             String min = request.getParameter("minamount").substring(1);
                             String max = request.getParameter("maxamount").substring(1);
                             String category_id = request.getParameter("id");
@@ -120,7 +161,7 @@
                                     <%
                                         if (session.getAttribute("login_done") != null) {
                                     %>
-                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="<%= request.getContextPath()%>?order=<%= resultSet.getString("product_id")%>"><i class="fa fa-shopping-cart"></i></a></li>
                                             <%
                                             } else {
                                             %>
@@ -154,7 +195,7 @@
                                     <%
                                         if (session.getAttribute("login_done") != null) {
                                     %>
-                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="<%= request.getContextPath()%>?order=<%= set1.getString("product_id")%>"><i class="fa fa-shopping-cart"></i></a></li>
                                             <%
                                             } else {
                                             %>
@@ -174,12 +215,19 @@
                     </div>
 
                     <%
+                            }
                         }
-                    } else if (request.getParameter("id") != null) {
-                        String category_id = request.getParameter("id");
-                        ProductDAO pdao = new ProductDAO();
-                        ResultSet rs = pdao.getAllProductByCategory(category_id);
-                        while (rs.next()) {
+                    %>
+
+
+
+
+                    <%
+                        if (request.getParameter("id") != null) {
+                            String category_id = request.getParameter("id");
+                            ProductDAO pdao = new ProductDAO();
+                            ResultSet rs = pdao.getAllProductByCategory(category_id);
+                            while (rs.next()) {
                     %>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
@@ -188,7 +236,7 @@
                                     <%
                                         if (session.getAttribute("login_done") != null) {
                                     %>
-                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="<%= request.getContextPath()%>?order=<%= rs.getString("product_id")%>"><i class="fa fa-shopping-cart"></i></a></li>
                                             <%
                                             } else {
                                             %>
@@ -219,7 +267,7 @@
                                     <%
                                         if (session.getAttribute("login_done") != null) {
                                     %>
-                                    <li><a href="<%= request.getContextPath()%>/product/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="<%= request.getContextPath()%>?order=<%= rs.getString("product_id")%>"><i class="fa fa-shopping-cart"></i></a></li>
                                             <%
                                             } else {
                                             %>

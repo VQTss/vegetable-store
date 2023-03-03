@@ -114,13 +114,13 @@
                                 } else {
                                 %>
                                 <div class="header__top__right__auth">
-                                    <a href="account/sign-up"><i class="fa fa-user-plus nav-item active" aria-hidden="false"></i>Sign-up</a>
+                                    <a href="<%= request.getContextPath() %>/account/sign-up"><i class="fa fa-user-plus nav-item active" aria-hidden="false"></i>Sign-up</a>
                                 </div>
                                 <div class="header__top__right__auth">
 
                                 </div>
                                 <div class="header__top__right__auth">
-                                    <a href="account/login"><i class="fa fa-user"></i> Login</a>
+                                    <a href="<%= request.getContextPath() %>/account/login"><i class="fa fa-user"></i> Login</a>
                                 </div>
                                 <%
                                     }
@@ -134,7 +134,7 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="header__logo">
-                            <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+                            <a href="/"><img src="/img/logo.png" alt=""></a>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -161,7 +161,7 @@
                                         float total = cartDAO.totalProduct(user.getUser_id());
                             %>
                             <ul>
-                                <li><a href="/product/cart"><i class="fa fa-shopping-bag"></i><span><%= count%></span></a></li>
+                                <li><a href="<%=  request.getContextPath() %>/product/cart"><i class="fa fa-shopping-bag"></i><span><%= count%></span></a></li>
                             </ul>
                             <div class="header__cart__price">item: <span>$<%= total%></span></div>
                             <%                                    }
@@ -250,7 +250,9 @@
                     ProductDAO productDAO = new ProductDAO();
                     check = productDAO.addToCardProduct(cart);
                 } else {
-                    
+                    Cart cart = cartDAO.getCartByProduct(product_id);
+                    ProductDAO productDAO = new ProductDAO();
+                    check = productDAO.addToCardProduct(cart.getQuantity() + 1, product_id);
                 }
 
                 if (check != 0) {

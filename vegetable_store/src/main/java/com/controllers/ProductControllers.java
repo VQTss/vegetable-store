@@ -93,9 +93,12 @@ public class ProductControllers extends HttpServlet {
         
         if (request.getParameter("update_cart") != null) {
             String[] quanties = request.getParameterValues("quantity");
-            String[] cart_ids = request.getParameterValues("cart_id");
-            out.print(Arrays.toString(quanties));
-            out.print(Arrays.toString(cart_ids));
+            String[] product_ids = request.getParameterValues("product_id");
+            for (int i = 0; i < quanties.length; i++) {
+                ProductDAO productDAO = new ProductDAO();
+                productDAO.addToCardProduct(Integer.valueOf(quanties[i]), product_ids[i]);
+            }
+            response.sendRedirect(request.getContextPath()+"/product/cart");
         }
     }
 

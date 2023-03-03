@@ -65,7 +65,7 @@
                                     <img width="50px" height="50px" src="/img/product/<%= product.getImage()%>" alt="">
                                     <h5><%= product.getProduct_name()%></h5>
                                 </td>
-                            <input type="hidden" id="id" name="cart_id" value="<%= resultSet.getString("cart_id")  %>">
+                            <input type="hidden" id="id" name="product_id" value="<%= resultSet.getString("product_id")  %>">
                                 <td class="shoping__cart__price">
                                     $<%= product.getSelling_price()%>
                                 </td>
@@ -94,8 +94,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                    <button  class="primary-btn cart-btn">CONTINUE SHOPPING</button>
-                    
+                    <a href="<%= request.getContextPath() %>/product/all" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
                         <input type="submit" value="Upadate Cart" class="primary-btn cart-btn cart-btn-right" name="update_cart">
                     </form>
                 </div>

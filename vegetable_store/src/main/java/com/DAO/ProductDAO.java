@@ -301,28 +301,41 @@ public class ProductDAO {
         return count;
     }
 
-    
-    public Product getProductById(String product_id){
+    public int addToCardProduct(int quantity, String product_id) {
+        int count = 0;
+        String query = "UPDATE `cart_item`\n"
+                + "SET quantity=?\n"
+                + "WHERE product_id=?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setInt(1, quantity);
+            pst.setString(2, product_id);
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    public Product getProductById(String product_id) {
         Product product = null;
-        
+
         String query = "SELECT * FROM `product` WHERE product_id=?";
- 
+
         try {
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, product_id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                product =  new Product(rs.getString("product_id"), rs.getString("product_name"),
+                product = new Product(rs.getString("product_id"), rs.getString("product_name"),
                         rs.getFloat("selling_price"), rs.getString("category_id"),
                         rs.getString("product_desc"), rs.getInt("quantity"), rs.getString("image"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return product;
     }
-    
-    
-    
+
 }
