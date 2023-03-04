@@ -4,8 +4,17 @@
  */
 package com.controllers;
 
+import com.DAO.CartDAO;
+import com.DAO.OrderDAO;
+import com.DAO.OrderDetailDAO;
+import com.DAO.PaymentDAO;
 import com.DAO.ProductDAO;
+import com.DAO.UserDAO;
+import com.models.GenerateID;
+import com.models.Order;
+import com.models.Payment;
 import com.models.Product;
+import com.models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -63,7 +72,6 @@ public class ProductControllers extends HttpServlet {
         String path = request.getRequestURI();
         if (path.startsWith("/product/cart")) {
             request.getRequestDispatcher("/shoping-cart.jsp").forward(request, response);
-            
         }
         if (path.endsWith("/product/all")) {
             request.getRequestDispatcher("/shop-grid.jsp").forward(request, response);
@@ -71,6 +79,36 @@ public class ProductControllers extends HttpServlet {
             request.getRequestDispatcher("/contact.jsp").forward(request, response);
         }else if (path.endsWith("/product/blog")) {
             request.getRequestDispatcher("/blog.jsp").forward(request, response);
+        }else {
+            if (path.startsWith("/product/payment")) {
+                String id = request.getParameter("id");
+                CartDAO cartDAO = new CartDAO();
+                float total =  cartDAO.totalProduct(id);
+                PaymentDAO paymentDAO = new PaymentDAO();
+                GenerateID gid = new GenerateID();
+                UserDAO userDAO = new UserDAO();
+                User user = userDAO.getUserByID(id);
+                Payment payment = new Payment(gid.generateOrder("payment"), id, total);
+                int check = paymentDAO.createPayement(payment);
+                if (check  != 0) {
+                    Order order = new Order(gid.generateOrder("order"), "Giao hang dung gio", user.getUser_id(), user.getFull_name(), user.getPhone(), user.getAddress(), payment.getPayment_id());
+                    OrderDAO orderDAO = new OrderDAO();
+                    check = orderDAO.createOrder(order);
+                    if (check != 0) {
+                        OrderDetailDAO detailDAO = new OrderDetailDAO();
+                        check = detailDAO.createOrderDetailsByUserId(user.getUser_id(), order.getOrder_id());
+                        if (check != 0) {
+                           response.sendRedirect("/");
+                        }else{
+                            out.print("order details fail");
+                        }
+                    }else{
+                        out.print("order fail");
+                    }
+                }else{
+                    out.print("payment fail");
+                }
+            }
         }
     }
 

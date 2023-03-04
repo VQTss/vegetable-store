@@ -20,7 +20,17 @@ public class Order {
     private String address;
     private String payment_id;
 
-    public Order(String order_id, String order_desc, String user_id, Date order_date, String name, String phone, String address, String payment_id) {
+    public Order(String order_id, String order_desc, String user_id, String name, String phone, String address, String payment_id) {
+        this.order_id = order_id;
+        this.order_desc = order_desc;
+        this.user_id = user_id;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.payment_id = payment_id;
+    }
+
+      public Order(String order_id, String order_desc, String user_id, Date order_date, String name, String phone, String address, String payment_id) {
         this.order_id = order_id;
         this.order_desc = order_desc;
         this.user_id = user_id;
@@ -30,7 +40,7 @@ public class Order {
         this.address = address;
         this.payment_id = payment_id;
     }
-
+    
     public String getOrder_id() {
         return order_id;
     }

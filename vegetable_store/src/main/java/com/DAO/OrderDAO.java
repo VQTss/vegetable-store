@@ -28,6 +28,31 @@ public class OrderDAO {
         conn = DBConnections.getConnection();
     }
 
+    
+    
+    public int createOrder(Order order){
+        int count = 0;
+        
+        String query = "INSERT INTO `order` "
+                + "(order_id,order_desc,user_id,order_date,name,phone,address,payment_id) VALUES (?,?,?,DATE(NOW()),?,?,?,?)";
+        
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, order.getOrder_id());
+            pst.setString(2, order.getOrder_desc());
+            pst.setString(3, order.getUser_id());
+            pst.setString(4, order.getName());
+            pst.setString(5, order.getPhone());
+            pst.setString(6, order.getAddress());
+            pst.setString(7, order.getPayment_id());
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    
+    
     public ResultSet getRecentOrder() {
         ResultSet rs = null;
 

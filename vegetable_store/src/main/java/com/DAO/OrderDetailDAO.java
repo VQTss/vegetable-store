@@ -5,6 +5,7 @@
 package com.DAO;
 
 import com.connections.DBConnections;
+import com.models.GenerateID;
 import com.models.OrderDetails;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,8 +53,8 @@ public class OrderDetailDAO {
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, order_id);
             ResultSet set = pst.executeQuery();
-            while (set.next()) {                
-                OrderDetails details = new OrderDetails(set.getString("orderdetail_id"), set.getInt("quantity"), 
+            while (set.next()) {
+                OrderDetails details = new OrderDetails(set.getString("orderdetail_id"), set.getInt("quantity"),
                         set.getString("product_id"), set.getString("order_id"));
                 arrayList.add(details);
             }
@@ -65,8 +66,7 @@ public class OrderDetailDAO {
         return arrayList;
     }
 
-    
-     public int deleteOrderDetails(String order_id){
+    public int deleteOrderDetails(String order_id) {
         int count = 0;
         String query = "DELETE FROM oder_detail WHERE order_id=?";
         try {
@@ -78,5 +78,52 @@ public class OrderDetailDAO {
         }
         return count;
     }
-    
+
+    public int createOrderDetails(OrderDetails details) {
+        int count = 0;
+
+        String query = "INSERT INTO oder_detail (orderdetail_id,quantity,product_id,order_id)"
+                + " VALUES(?,?,?,?)";
+
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, details.getOrderdetails_id());
+            pst.setInt(2, details.getQuantity());
+            pst.setString(3, details.getProduct_id());
+            pst.setString(4, details.getOrder_id());
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return count;
+    }
+
+    public int createOrderDetailsByUserId(String user_id, String order_id) {
+        int count = 0;
+
+        CartDAO cartDAO = new CartDAO();
+        ResultSet resultSet = cartDAO.getAllCartByID(user_id);
+
+        try {
+            while (resultSet.next()) {
+                GenerateID generateID = new GenerateID();
+                String order_details_id = generateID.generateOrder("order_details");
+                OrderDetails details = new OrderDetails(order_details_id, resultSet.getInt("quantity"), resultSet.getString("product_id"), order_id);
+                int check_details = createOrderDetails(details);
+                int remove_cart = cartDAO.deleteCart(resultSet.getString("cart_id"));
+                if (check_details == 0 && remove_cart == 0) {
+                    count = 0;
+                    break;
+                } else {
+                    count++;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+
+    }
+
 }

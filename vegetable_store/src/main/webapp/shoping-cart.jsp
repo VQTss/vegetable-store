@@ -108,7 +108,7 @@
                         <li>Subtotal <span>$<%= total%></span></li>
                         <li>Total <span>$<%= total%></span></li>
                     </ul>
-                    <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a href="<%= request.getContextPath() %>/product/payment?id=<%= user.getUser_id() %>" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>
