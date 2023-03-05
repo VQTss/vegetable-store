@@ -100,13 +100,13 @@ public class ProductControllers extends HttpServlet {
                         if (check != 0) {
                            response.sendRedirect("/");
                         }else{
-                            out.print("order details fail");
+                           response.sendRedirect("/");
                         }
                     }else{
-                        out.print("order fail");
+                        response.sendRedirect("/");
                     }
                 }else{
-                    out.print("payment fail");
+                    response.sendRedirect("/");
                 }
             }
         }

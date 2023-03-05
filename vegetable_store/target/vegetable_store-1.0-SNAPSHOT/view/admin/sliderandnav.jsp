@@ -10,8 +10,6 @@
                     class="fas fa-project-diagram me-2"></i>Manage customer</a>
             <a href="<%= request.getContextPath()%>/admin/manage/staff" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                     class="fas fa-chart-line me-2"></i>Manage staff</a>
-            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                    class="fas fa-shopping-cart me-2"></i>Manage Order</a>
             <a href="<%= request.getContextPath()%>/admin/manage/product" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                     class="fas fa-gift me-2"></i>Products</a>
             <a href="/account/logout" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i

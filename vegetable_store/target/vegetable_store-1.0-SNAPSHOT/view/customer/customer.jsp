@@ -46,11 +46,9 @@
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                     <img src="/view/admin/logo.png" alt="alt"/></div>
                 <div class="list-group list-group-flush my-3">
-                    <a href="<%= request.getContextPath() %>/login/customer" class="list-group-item list-group-item-action bg-transparent second-text "><i
+                    <a href="<%= request.getContextPath()%>/login/customer" class="list-group-item list-group-item-action bg-transparent second-text "><i
                             class="fas fa-tachometer-alt me-2"></i>Order</a>
-                    <a href="<%= request.getContextPath() %>/customer/histories" class="list-group-item list-group-item-action bg-transparent second-text "><i
-                            class="fas fa-tachometer-alt me-2"></i>Histories</a>
-                    <a href="<%= request.getContextPath() %>/customer/profile" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    <a href="<%= request.getContextPath()%>/customer/profile?id=<%= user.getEmail()%>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-project-diagram me-2"></i>Profile</a>
                     <a href="/account/logout" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                             class="fas fa-power-off me-2"></i>Logout</a>
@@ -87,6 +85,21 @@
                     </div>
                 </nav>
 
+                <%
+                    if (request.getParameter("update_sucess") != null) {
+                %>
+                <div class="alert alert-success" role="alert">
+                    Update profile success.
+                </div>
+                <%
+                } else if (request.getParameter("update_fail") != null) {
+                %>
+                <div class="alert alert-danger" role="alert">
+                    Update profile fail.
+                </div>
+                <%
+                    }
+                %>
 
                 <div class="d-flex" id="wrapper">
 
@@ -105,7 +118,7 @@
                                             <th>Name</th>
                                             <th>Order date</th>
                                             <th>Note</th>
-                                            <th>Status</th>
+                                          
 
                                         </tr>
                                     </thead>
@@ -114,22 +127,17 @@
                                             OrderDAO dAO = new OrderDAO();
                                             ResultSet elem = dAO.getAllOrderByUser(user.getUser_id());
                                             while (elem.next()) {
-                                                if (elem.getString("payment_id") == null) {
+
                                         %>
                                         <tr>
                                             <td><%= elem.getString("order_id")%></td>
                                             <td><%= elem.getString("name")%></td>
                                             <td><%= elem.getDate("order_date")%></td>
                                             <td><%= elem.getString("order_desc")%></td>
-                                            <td><%
-                                                out.print("Waiting");
-                                                %></td>
-                                        </tr>
-                                        <%        }
+                                        <%
                                             }
 
                                         %>
-
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -137,8 +145,6 @@
                                             <th>Name</th>
                                             <th>Order date</th>
                                             <th>Note</th>
-                                            <th>Status</th>
-
                                         </tr>
                                     </tfoot>
                                 </table>

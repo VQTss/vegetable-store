@@ -74,4 +74,44 @@ public class PaymentDAO {
         return p;
     }
 
+    public ResultSet getAllPayment() {
+        ResultSet resultSet = null;
+        String query = "SELECT * FROM `payment`";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            resultSet = pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultSet;
+    }
+
+    public double getAllTotalPrice() {
+       double total = 0;
+       ResultSet resultSet = getAllPayment();
+        try {
+            while (resultSet.next()) {
+                total += resultSet.getFloat("total_price");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return total;
+    }
+    
+     public int getAllPaymentOrder() {
+       int total = 0;
+       ResultSet resultSet = getAllPayment();
+        try {
+            while (resultSet.next()) {
+                total++;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return total;
+    }
+    
+    
+    
 }

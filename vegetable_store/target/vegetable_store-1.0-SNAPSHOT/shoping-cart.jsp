@@ -86,6 +86,7 @@
                             <%
                                 }
                             %>
+                           
                         </tbody>
                     </table>
                 </div>
@@ -95,6 +96,7 @@
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
                     <a href="<%= request.getContextPath() %>/product/all" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                   
                         <input type="submit" value="Upadate Cart" class="primary-btn cart-btn cart-btn-right" name="update_cart">
                     </form>
                 </div>
